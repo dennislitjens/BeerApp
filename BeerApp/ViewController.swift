@@ -17,11 +17,16 @@ class ViewController: UIViewController, UITextFieldDelegate, UINavigationControl
     @IBOutlet weak var descriptionTextField: UITextView!
     @IBOutlet weak var ratingControl: RatingControl!
     @IBOutlet weak var alcoholPercentageLabel: UILabel!
-    
     var beer: Beer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+          if let beer = beer {
+            nameLabel.text = beer.name
+            photoImageView.image = beer.photo
+            ratingControl.rating = beer.rating
+        }
     }
     
     
