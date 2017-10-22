@@ -8,18 +8,26 @@
 
 import UIKit
 import os.log
+import Alamofire
+import SwiftyJSON
 
 class BeerTableViewController: UITableViewController {
 
     //MARK: Properties
     
     var beers = [Beer]()
+    var beersToDelete = [Beer]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(BeerTableViewCell.self, forCellReuseIdentifier: "cell")
-            //Load the sample data.
-            loadSampleBeers()
+        
+        //Load the sample data.
+        loadSampleBeers()
+        getSearchedBeers();
+        
+        self.tableView.allowsMultipleSelectionDuringEditing = true;
+        self.navigationItem.rightBarButtonItem = self.editButtonItem;
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -82,6 +90,10 @@ class BeerTableViewController: UITableViewController {
         }
      }
     
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return UITableViewCellEditingStyle.init(rawValue: 3)!
+    }
+    
     /*
      // Override to support rearranging the table view.
      override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
@@ -141,6 +153,10 @@ class BeerTableViewController: UITableViewController {
         }
     }*/
     
+    @IBAction func didTapBringCheckBoxBtn(_ sender: UIBarButtonItem) {
+    }
+    
+    
     //MARK: Private Methods
     
     private func loadSampleBeers() {
@@ -164,9 +180,63 @@ class BeerTableViewController: UITableViewController {
         beers += [beer1, beer2, beer3]
     }
     
-    
-    /*private func loadBeers() -> [Beer]? {
-        return NSKeyedUnarchiver.unarchiveObject(withFile: Beer.ArchiveURL.path) as? [Beer]
-    }*/
+    private func getSearchedBeers(){
+        var beersData = [Beer]()
+        var arrayNames = [String]()
+        var arrayDescriptions = [String]()
+        var arrayAlcoholPercentages = [Double]()
+        
+        Alamofire.request("http://api.brewerydb.com/v2/search?q=duvel&type=beer&key=ea3f42048aa2b2e591a2be6861ca2f26").responseJSON { (responseData) -> Void in
+            if((responseData.result.value) != nil) {
+                let swiftyResponseData = JSON(responseData.result.value!)
+                
+                arrayNames =  swiftyResponseData["data"].arrayValue.map({$0["name"].stringValue})
+                arrayDescriptions =  swiftyResponseData["data"].arrayValue.map({$0["description"].stringValue})
+                arrayAlcoholPercentages =  swiftyResponseData["data"].arrayValue.map({$0["abv"].doubleValue})
+            }
+        }
 
-}
+        print(arrayNames)
+        print("")
+        /*for i in 0...(arrayNames.count - 1)  {
+            let beerName = arrayNames[i]
+            let beerDescription = arrayDescriptions[i]
+            let beerAlcoholPercentage = arrayAlcoholPercentages[i]
+            
+            guard let beer = Beer(name: beerName, photo: UIImage(named: "beer1"), rating: 3, descriptionBeer: beerDescription, alcoholPercentage: beerAlcoholPercentage ) else {
+                fatalError("Unable to instantiate beer")
+            }
+            
+            beersData += [beer]
+        }*/
+        
+        //print(beersData[0].name)
+        /*
+        Alamofire.request(
+            "http://api.brewerydb.com/v2/search?q=duvel&type=beer&key=ea3f42048aa2b2e591a2be6861ca2f26"
+            )
+            .responseJSON { response in
+                guard response.result.isSuccess else {
+                    print("Error while fetching beers: \(response.result.error)")
+                    return
+                }
+                
+                let json = JSON(response.result.value!)
+                if let beerData = json["data"].arrayObject {
+                   let arrBeers = beerData as! [[String:AnyObject]]
+                }
+                
+                print(arrBeers)
+                */
+                /*guard let responseJSON = response.result.value as? [String: Any],
+                    let beerResults = responseJSON["data"] as? [[String: Any]]
+                else {
+                    print("Invalid beer information received from the service")
+                    return
+                }*/
+                
+        
+
+        }
+    }
+
