@@ -118,6 +118,7 @@ class BeerTableViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
         super.prepare(for: segue, sender: sender)
+        if let destinationSegue = segue.destination as? ViewController {
             guard let beerDetailViewController = segue.destination as? ViewController else{
                 fatalError("Unexpected destination: \(segue.destination)")
             }
@@ -132,7 +133,7 @@ class BeerTableViewController: UITableViewController {
             
             let selectedBeer = beers[indexPath.row]
             beerDetailViewController.beer = selectedBeer
-            
+        }
     }
     
     //MARK: Actions
@@ -185,6 +186,12 @@ class BeerTableViewController: UITableViewController {
         beers += [beer1, beer2, beer3]
     }*/
     
+    private func showNoBeersFoundMessage(){
+        let alertNoBeersFound = UIAlertController(title: "Oops!", message: "No beers found for your search", preferredStyle: .alert)
+        alertNoBeersFound.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alertNoBeersFound, animated: true, completion: nil)
+    }
+    
     private func getSearchedBeers(searchText: String){
         var beersData = [Beer]()
         var arrayNames = [String]()
@@ -201,19 +208,24 @@ class BeerTableViewController: UITableViewController {
                 print(arrayImageUrls)
                 arrayAlcoholPercentages =  jsonStringResponseData["data"].arrayValue.map({$0["abv"].doubleValue})
                 
-                for i in 0...(arrayNames.count - 1)  {
-                    let beerName = arrayNames[i]
-                    let beerDescription = arrayDescriptions[i]
-                    let beerAlcoholPercentage = arrayAlcoholPercentages[i]
-                    let imageUrl = arrayImageUrls[i]
-                    
-                    guard let beer = Beer(name: beerName, photo: imageUrl, rating: 3, descriptionBeer: beerDescription, alcoholPercentage: beerAlcoholPercentage ) else {
-                        fatalError("Unable to instantiate beer")
+                if arrayNames.count != 0 {
+                    for i in 0...(arrayNames.count - 1)  {
+                        let beerName = arrayNames[i]
+                        let beerDescription = arrayDescriptions[i]
+                        let beerAlcoholPercentage = arrayAlcoholPercentages[i]
+                        let imageUrl = arrayImageUrls[i]
+                        
+                        guard let beer = Beer(name: beerName, photo: imageUrl, rating: 3, descriptionBeer: beerDescription, alcoholPercentage: beerAlcoholPercentage ) else {
+                            fatalError("Unable to instantiate beer")
+                        }
+                        
+                        self.beers += [beer]
+                        
                     }
-                    
-                    self.beers += [beer]
-                    
+                }else{
+                    self.showNoBeersFoundMessage()
                 }
+                
                 self.beerTableView.reloadData()
         }
     }
