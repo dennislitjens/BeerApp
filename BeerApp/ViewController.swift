@@ -24,8 +24,11 @@ class ViewController: UIViewController, UITextFieldDelegate, UINavigationControl
         
           if let beer = beer {
             nameLabel.text = beer.name
-            photoImageView.image = beer.photo
+            photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
             ratingControl.rating = beer.rating
+            alcoholPercentageLabel.text = String(beer.alcoholPercentage)
+            photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
+            descriptionTextField.text = beer.descriptionBeer
         }
     }
     

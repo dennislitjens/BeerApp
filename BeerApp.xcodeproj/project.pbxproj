@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9562F72A1F9D23190037B1CB /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9562F7291F9D23190037B1CB /* HomeController.swift */; };
 		958CA6D61F82724D00567E6E /* Beer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CA6D51F82724D00567E6E /* Beer.swift */; };
 		958CA6D81F82743600567E6E /* BeerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CA6D71F82743600567E6E /* BeerTableViewCell.swift */; };
 		958CA6DA1F827EEB00567E6E /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CA6D91F827EEB00567E6E /* RatingControl.swift */; };
@@ -34,6 +35,7 @@
 		2458EFD02D629B5EC19A14A8 /* Pods-BeerApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeerApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-BeerApp/Pods-BeerApp.release.xcconfig"; sourceTree = "<group>"; };
 		4293CFE9799DED212B5C4D9A /* Pods-BeerApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeerApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BeerApp/Pods-BeerApp.debug.xcconfig"; sourceTree = "<group>"; };
 		8DCDCEC9A4DF482131BC6AC7 /* Pods_BeerApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BeerApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9562F7291F9D23190037B1CB /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
 		958CA6D51F82724D00567E6E /* Beer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beer.swift; sourceTree = "<group>"; };
 		958CA6D71F82743600567E6E /* BeerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeerTableViewCell.swift; sourceTree = "<group>"; };
 		958CA6D91F827EEB00567E6E /* RatingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 				958CA6D71F82743600567E6E /* BeerTableViewCell.swift */,
 				958CA6D91F827EEB00567E6E /* RatingControl.swift */,
 				958CA6DB1F8284A300567E6E /* BeerTableViewController.swift */,
+				9562F7291F9D23190037B1CB /* HomeController.swift */,
 			);
 			path = BeerApp;
 			sourceTree = "<group>";
@@ -260,11 +263,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BeerApp/Pods-BeerApp-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -296,6 +301,7 @@
 			files = (
 				95D39FE01F7E7AA000394ADC /* ViewController.swift in Sources */,
 				958CA6D61F82724D00567E6E /* Beer.swift in Sources */,
+				9562F72A1F9D23190037B1CB /* HomeController.swift in Sources */,
 				95D39FDE1F7E7AA000394ADC /* AppDelegate.swift in Sources */,
 				958CA6DA1F827EEB00567E6E /* RatingControl.swift in Sources */,
 				958CA6D81F82743600567E6E /* BeerTableViewCell.swift in Sources */,

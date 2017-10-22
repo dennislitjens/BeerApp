@@ -81,10 +81,10 @@
             </objects>
             <point key="canvasLocation" x="-1253" y="127"/>
         </scene>
-        <!--View Controller-->
+        <!--Title-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="BeerApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="HomeController" customModule="BeerApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -95,23 +95,16 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="dQP-yt-hBB">
                                         <rect key="frame" x="0.0" y="0.0" width="290" height="239.5"/>
                                         <subviews>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search for a beer" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ndz-c0-5TE">
-                                                <rect key="frame" x="0.0" y="0.0" width="290" height="80.5"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="80" id="vGH-bZ-TPe"/>
-                                                </constraints>
-                                                <nil key="textColor"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <searchBar contentMode="redraw" ambiguous="YES" placeholder="Search for a beer" translatesAutoresizingMaskIntoConstraints="NO" id="jp5-E7-qyW">
+                                                <rect key="frame" x="0.0" y="0.0" width="290" height="56"/>
+                                                <color key="backgroundColor" red="0.88351303339004517" green="0.99916166067123413" blue="0.8333238959312439" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <textInputTraits key="textInputTraits"/>
-                                                <variation key="heightClass=regular-widthClass=regular">
-                                                    <fontDescription key="fontDescription" type="system" pointSize="35"/>
-                                                </variation>
-                                            </textField>
-                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pkM-6G-4bj">
-                                                <rect key="frame" x="0.0" y="88.5" width="290" height="151"/>
+                                            </searchBar>
+                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pkM-6G-4bj">
+                                                <rect key="frame" x="0.0" y="64" width="290" height="175.5"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2E-eY-6Zb">
-                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="45"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2E-eY-6Zb">
+                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="53"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <state key="normal" title="🍺 Favorite beers"/>
@@ -119,19 +112,19 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                                         </variation>
                                                         <connections>
-                                                            <segue destination="SpA-Go-8Ar" kind="show" id="Og1-V8-YFx"/>
+                                                            <segue destination="SpA-Go-8Ar" kind="show" identifier="beerTableSegue" id="Og1-V8-YFx"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FAf-Rm-90e">
-                                                        <rect key="frame" x="0.0" y="53" width="290" height="45"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FAf-Rm-90e">
+                                                        <rect key="frame" x="0.0" y="61" width="290" height="53.5"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <state key="normal" title="🍀 Lucky guess"/>
                                                         <variation key="heightClass=regular-widthClass=regular">
                                                             <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                                         </variation>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tzp-PG-wW5">
-                                                        <rect key="frame" x="0.0" y="106" width="290" height="45"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tzp-PG-wW5">
+                                                        <rect key="frame" x="0.0" y="122.5" width="290" height="53"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <state key="normal" title="🚘 Can I still drive"/>
                                                         <variation key="heightClass=regular-widthClass=regular">
@@ -171,8 +164,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="kv7-ny-w0r"/>
+                    <navigationItem key="navigationItem" title="Title" id="e8F-bx-rnh" userLabel="Home"/>
                     <connections>
+                        <outlet property="searchBar" destination="jp5-E7-qyW" id="zsG-PU-4gB"/>
                         <outlet property="searchDisplayController" destination="3Mn-bh-qKq" id="mOM-8x-ckz"/>
                     </connections>
                 </viewController>
@@ -248,7 +242,12 @@
                             <outlet property="delegate" destination="dHO-aE-RVp" id="ozT-jI-2dm"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Favorite beers" id="EqB-P6-kZk"/>
+                    <navigationItem key="navigationItem" title="Favorite beers" id="EqB-P6-kZk">
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="xGI-4I-Oyk"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="beerTableView" destination="KUA-P1-YOg" id="pWS-uv-Txe"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NJW-y4-MjT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

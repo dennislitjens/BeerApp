@@ -6,4 +6,5 @@ use_frameworks!
 target 'BeerApp' do
 pod 'Alamofire', '~> 4.2.0'
 pod 'SwiftyJSON'
+pod 'SDWebImage', '~> 4.0'
 end

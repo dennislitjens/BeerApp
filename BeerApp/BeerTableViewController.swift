@@ -10,21 +10,25 @@ import UIKit
 import os.log
 import Alamofire
 import SwiftyJSON
+import SDWebImage
 
 class BeerTableViewController: UITableViewController {
 
+    //MARK: Outlets
+    @IBOutlet var beerTableView: UITableView!
+    
     //MARK: Properties
     
     var beers = [Beer]()
     var beersToDelete = [Beer]()
+    var searchText = ""
     
     override func viewDidLoad() {
+        var beerData = [Beer]()
         super.viewDidLoad()
         self.tableView.register(BeerTableViewCell.self, forCellReuseIdentifier: "cell")
         
-        //Load the sample data.
-        loadSampleBeers()
-        getSearchedBeers();
+        getSearchedBeers(searchText: searchText);
         
         self.tableView.allowsMultipleSelectionDuringEditing = true;
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -60,12 +64,12 @@ class BeerTableViewController: UITableViewController {
             fatalError("The dequeued cell is not an instance of BeerTableViewCell.")
         }//request a cell from table view
         
-        // Fetches the appropriate meal for the data source layout.
+        // Fetches the appropriate beer for the data source layout.
         let beer = beers[indexPath.row]
         
         // Configure the cell
         cell.nameLabel.text = beer.name
-        cell.photoImageView.image = beer.photo
+        cell.photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
         cell.ratingControl.rating = beer.rating
         
         return cell
@@ -112,9 +116,8 @@ class BeerTableViewController: UITableViewController {
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
         super.prepare(for: segue, sender: sender)
-            
             guard let beerDetailViewController = segue.destination as? ViewController else{
                 fatalError("Unexpected destination: \(segue.destination)")
             }
@@ -133,6 +136,8 @@ class BeerTableViewController: UITableViewController {
     }
     
     //MARK: Actions
+    
+    
     
     /*@IBAction func unwindToMealList(sender: UIStoryboardSegue){
         if let sourceViewController = sender.source as?
@@ -159,7 +164,7 @@ class BeerTableViewController: UITableViewController {
     
     //MARK: Private Methods
     
-    private func loadSampleBeers() {
+    /*private func loadSampleBeers() {
         let photo1 = UIImage(named: "beer1")
         let photo2 = UIImage(named: "beer2")
         let photo3 = UIImage(named: "beer3")
@@ -178,65 +183,39 @@ class BeerTableViewController: UITableViewController {
         }
         
         beers += [beer1, beer2, beer3]
-    }
+    }*/
     
-    private func getSearchedBeers(){
+    private func getSearchedBeers(searchText: String){
         var beersData = [Beer]()
         var arrayNames = [String]()
         var arrayDescriptions = [String]()
+        var arrayImageUrls = [String]()
         var arrayAlcoholPercentages = [Double]()
         
-        Alamofire.request("http://api.brewerydb.com/v2/search?q=duvel&type=beer&key=ea3f42048aa2b2e591a2be6861ca2f26").responseJSON { (responseData) -> Void in
+        Alamofire.request("http://api.brewerydb.com/v2/search?q=" + searchText + "&type=beer&key=ea3f42048aa2b2e591a2be6861ca2f26").responseJSON { (responseData) -> Void in
             if((responseData.result.value) != nil) {
-                let swiftyResponseData = JSON(responseData.result.value!)
+                let jsonStringResponseData = JSON(responseData.result.value!)
+                arrayNames =  jsonStringResponseData["data"].arrayValue.map({$0["name"].stringValue})
+                arrayDescriptions =  jsonStringResponseData["data"].arrayValue.map({$0["description"].stringValue})
+                arrayImageUrls = jsonStringResponseData["data"].arrayValue.map({$0["labels"]["medium"].stringValue})
+                print(arrayImageUrls)
+                arrayAlcoholPercentages =  jsonStringResponseData["data"].arrayValue.map({$0["abv"].doubleValue})
                 
-                arrayNames =  swiftyResponseData["data"].arrayValue.map({$0["name"].stringValue})
-                arrayDescriptions =  swiftyResponseData["data"].arrayValue.map({$0["description"].stringValue})
-                arrayAlcoholPercentages =  swiftyResponseData["data"].arrayValue.map({$0["abv"].doubleValue})
-            }
-        }
-
-        print(arrayNames)
-        print("")
-        /*for i in 0...(arrayNames.count - 1)  {
-            let beerName = arrayNames[i]
-            let beerDescription = arrayDescriptions[i]
-            let beerAlcoholPercentage = arrayAlcoholPercentages[i]
-            
-            guard let beer = Beer(name: beerName, photo: UIImage(named: "beer1"), rating: 3, descriptionBeer: beerDescription, alcoholPercentage: beerAlcoholPercentage ) else {
-                fatalError("Unable to instantiate beer")
-            }
-            
-            beersData += [beer]
-        }*/
-        
-        //print(beersData[0].name)
-        /*
-        Alamofire.request(
-            "http://api.brewerydb.com/v2/search?q=duvel&type=beer&key=ea3f42048aa2b2e591a2be6861ca2f26"
-            )
-            .responseJSON { response in
-                guard response.result.isSuccess else {
-                    print("Error while fetching beers: \(response.result.error)")
-                    return
+                for i in 0...(arrayNames.count - 1)  {
+                    let beerName = arrayNames[i]
+                    let beerDescription = arrayDescriptions[i]
+                    let beerAlcoholPercentage = arrayAlcoholPercentages[i]
+                    let imageUrl = arrayImageUrls[i]
+                    
+                    guard let beer = Beer(name: beerName, photo: imageUrl, rating: 3, descriptionBeer: beerDescription, alcoholPercentage: beerAlcoholPercentage ) else {
+                        fatalError("Unable to instantiate beer")
+                    }
+                    
+                    self.beers += [beer]
+                    
                 }
-                
-                let json = JSON(response.result.value!)
-                if let beerData = json["data"].arrayObject {
-                   let arrBeers = beerData as! [[String:AnyObject]]
-                }
-                
-                print(arrBeers)
-                */
-                /*guard let responseJSON = response.result.value as? [String: Any],
-                    let beerResults = responseJSON["data"] as? [[String: Any]]
-                else {
-                    print("Invalid beer information received from the service")
-                    return
-                }*/
-                
-        
-
+                self.beerTableView.reloadData()
         }
     }
-
+}
+}

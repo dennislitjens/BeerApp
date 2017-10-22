@@ -14,7 +14,7 @@ class Beer : NSObject, NSCoding {
     //MARK: Properties
     
     var name: String
-    var photo: UIImage? //optional
+    var photo: String? //optional
     var rating: Int
     var descriptionBeer: String
     var alcoholPercentage: Double
@@ -36,7 +36,7 @@ class Beer : NSObject, NSCoding {
     
     //MARK: Initialization
     
-    init?(name: String, photo: UIImage?, rating: Int, descriptionBeer: String, alcoholPercentage: Double) {
+    init?(name: String, photo: String?, rating: Int, descriptionBeer: String, alcoholPercentage: Double) {
         // Initialization should fail if there is no name or if the rating is negative.
         if name.isEmpty || rating < 0  {
             return nil
@@ -67,7 +67,7 @@ class Beer : NSObject, NSCoding {
         }
         
         // Because photo is an optional property of Meal, just use conditional cast.
-        let photo = aDecoder.decodeObject(forKey: PropertyKey.photo) as? UIImage
+        let photo = aDecoder.decodeObject(forKey: PropertyKey.photo) as? String
         let rating = aDecoder.decodeInteger(forKey: PropertyKey.rating)
         guard let descriptionBeer = aDecoder.decodeObject(forKey: PropertyKey.descriptionBeer) as? String else {
             os_log("Unable to decode the description for a Beer object.", log: OSLog.default, type: .debug)
