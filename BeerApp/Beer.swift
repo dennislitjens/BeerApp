@@ -8,6 +8,7 @@
 
 import UIKit
 import os.log
+import CoreData
 
 class Beer : NSObject, NSCoding {
     
@@ -35,7 +36,6 @@ class Beer : NSObject, NSCoding {
     }
     
     //MARK: Initialization
-    
     init?(name: String, photo: String?, rating: Int, descriptionBeer: String, alcoholPercentage: Double) {
         // Initialization should fail if there is no name or if the rating is negative.
         if name.isEmpty || rating < 0  {

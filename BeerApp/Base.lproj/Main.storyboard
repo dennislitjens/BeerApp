@@ -243,7 +243,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Favorite beers" id="EqB-P6-kZk">
-                        <barButtonItem key="leftBarButtonItem" title="Item" id="xGI-4I-Oyk"/>
+                        <barButtonItem key="leftBarButtonItem" title="Home" id="xGI-4I-Oyk">
+                            <connections>
+                                <segue destination="BYZ-38-t0r" kind="show" id="fnd-4y-G4f"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="beerTableView" destination="KUA-P1-YOg" id="pWS-uv-Txe"/>
@@ -387,6 +391,7 @@
                         <viewLayoutGuide key="safeArea" id="dBE-j6-ek1"/>
                     </view>
                     <connections>
+                        <outlet property="addToFavouriteButton" destination="djM-GZ-lDy" id="qel-iW-Qql"/>
                         <outlet property="alcoholPercentageLabel" destination="AN6-xi-NuT" id="o7D-nA-sLD"/>
                         <outlet property="descriptionTextField" destination="oJn-l1-b6h" id="1Yr-2q-xOD"/>
                         <outlet property="nameLabel" destination="5nT-UU-MUi" id="DlR-hX-pr7"/>
@@ -2243,4 +2248,8 @@ AAGkWQABpFwAAaRuAAGkcQABpHYAAAAAAAAEAQAAAAAAAABBAAAAAAAAAAAAAAAAAAGkeA
 </mutableData>
         </image>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Og1-V8-YFx"/>
+        <segue reference="fnd-4y-G4f"/>
+    </inferredMetricsTieBreakers>
 </document>

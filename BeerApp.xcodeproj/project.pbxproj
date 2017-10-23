@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9562F72A1F9D23190037B1CB /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9562F7291F9D23190037B1CB /* HomeController.swift */; };
+		9562F74E1F9D3D7C0037B1CB /* BeerApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9562F74C1F9D3D7C0037B1CB /* BeerApp.xcdatamodeld */; };
 		958CA6D61F82724D00567E6E /* Beer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CA6D51F82724D00567E6E /* Beer.swift */; };
 		958CA6D81F82743600567E6E /* BeerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CA6D71F82743600567E6E /* BeerTableViewCell.swift */; };
 		958CA6DA1F827EEB00567E6E /* RatingControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958CA6D91F827EEB00567E6E /* RatingControl.swift */; };
@@ -36,6 +37,7 @@
 		4293CFE9799DED212B5C4D9A /* Pods-BeerApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BeerApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BeerApp/Pods-BeerApp.debug.xcconfig"; sourceTree = "<group>"; };
 		8DCDCEC9A4DF482131BC6AC7 /* Pods_BeerApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BeerApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9562F7291F9D23190037B1CB /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
+		9562F74D1F9D3D7C0037B1CB /* BeerApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BeerApp.xcdatamodel; sourceTree = "<group>"; };
 		958CA6D51F82724D00567E6E /* Beer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Beer.swift; sourceTree = "<group>"; };
 		958CA6D71F82743600567E6E /* BeerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeerTableViewCell.swift; sourceTree = "<group>"; };
 		958CA6D91F827EEB00567E6E /* RatingControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingControl.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				95D39FDD1F7E7AA000394ADC /* AppDelegate.swift */,
+				9562F74C1F9D3D7C0037B1CB /* BeerApp.xcdatamodeld */,
 				95D39FDF1F7E7AA000394ADC /* ViewController.swift */,
 				95D39FE11F7E7AA000394ADC /* Main.storyboard */,
 				95D39FE41F7E7AA000394ADC /* Assets.xcassets */,
@@ -302,6 +305,7 @@
 				95D39FE01F7E7AA000394ADC /* ViewController.swift in Sources */,
 				958CA6D61F82724D00567E6E /* Beer.swift in Sources */,
 				9562F72A1F9D23190037B1CB /* HomeController.swift in Sources */,
+				9562F74E1F9D3D7C0037B1CB /* BeerApp.xcdatamodeld in Sources */,
 				95D39FDE1F7E7AA000394ADC /* AppDelegate.swift in Sources */,
 				958CA6DA1F827EEB00567E6E /* RatingControl.swift in Sources */,
 				958CA6D81F82743600567E6E /* BeerTableViewCell.swift in Sources */,
@@ -551,6 +555,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9562F74C1F9D3D7C0037B1CB /* BeerApp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9562F74D1F9D3D7C0037B1CB /* BeerApp.xcdatamodel */,
+			);
+			currentVersion = 9562F74D1F9D3D7C0037B1CB /* BeerApp.xcdatamodel */;
+			path = BeerApp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 95D39FD21F7E7AA000394ADC /* Project object */;
 }

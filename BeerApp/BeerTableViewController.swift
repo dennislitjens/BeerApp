@@ -11,6 +11,7 @@ import os.log
 import Alamofire
 import SwiftyJSON
 import SDWebImage
+import CoreData
 
 class BeerTableViewController: UITableViewController {
 
@@ -18,20 +19,27 @@ class BeerTableViewController: UITableViewController {
     @IBOutlet var beerTableView: UITableView!
     
     //MARK: Properties
-    
     var beers = [Beer]()
     var beersToDelete = [Beer]()
     var searchText = ""
+    var savedBeers: [NSManagedObject] = []
+    var senderFromSegue: String = ""
     
     override func viewDidLoad() {
-        var beerData = [Beer]()
         super.viewDidLoad()
         self.tableView.register(BeerTableViewCell.self, forCellReuseIdentifier: "cell")
         
-        getSearchedBeers(searchText: searchText);
-        
         self.tableView.allowsMultipleSelectionDuringEditing = true;
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
+        
+        if senderFromSegue == "searchSegue"{
+            self.title = "Search results: " + searchText
+            getSearchedBeers(searchText: searchText)
+        }else if senderFromSegue == "favouriteSegue"{
+            self.title = "Favourite beers"
+            getDataFromBeerDataObject()
+            getSavedBeersToFavourite()
+        }
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -186,8 +194,51 @@ class BeerTableViewController: UITableViewController {
         beers += [beer1, beer2, beer3]
     }*/
     
+    private func getDataFromBeerDataObject(){
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "BeerObject")
+        
+        do {
+            savedBeers = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
+    
+    private func getSavedBeersToFavourite(){
+        if savedBeers.count != 0
+        {
+            for beer in savedBeers {
+                print(beer.value(forKeyPath: "name") as? String)
+                print(beer.value(forKeyPath: "photo") as? String)
+                print(beer.value(forKeyPath: "rating") as? String)
+                print(beer.value(forKeyPath: "descriptionBeer") as? String)
+                print(beer.value(forKeyPath: "alcoholPercentage") as? String)
+                let name = beer.value(forKeyPath: "name") as? String
+                let photo = beer.value(forKeyPath: "photo") as? String
+                let rating = beer.value(forKeyPath: "rating") as? Int
+                let descriptionBeer = beer.value(forKeyPath: "descriptionBeer") as? String
+                let alcoholPercentage = beer.value(forKeyPath: "alcoholPercentage") as? Double
+                
+                let newBeerFromSavedBeer = Beer(name: name!, photo: photo, rating: rating!, descriptionBeer: descriptionBeer!, alcoholPercentage: alcoholPercentage!)
+                self.beers.append(newBeerFromSavedBeer!)
+            }
+        }else{
+            showNoBeersFoundMessage()
+        }
+        
+    }
+    
     private func showNoBeersFoundMessage(){
-        let alertNoBeersFound = UIAlertController(title: "Oops!", message: "No beers found for your search", preferredStyle: .alert)
+        let alertNoBeersFound = UIAlertController(title: "Oops!", message: "No beers found", preferredStyle: .alert)
         alertNoBeersFound.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         present(alertNoBeersFound, animated: true, completion: nil)
     }
@@ -225,7 +276,6 @@ class BeerTableViewController: UITableViewController {
                 }else{
                     self.showNoBeersFoundMessage()
                 }
-                
                 self.beerTableView.reloadData()
         }
     }

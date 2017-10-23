@@ -8,6 +8,7 @@
 
 import UIKit
 import os.log
+import CoreData
 
 class ViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
     
@@ -17,10 +18,20 @@ class ViewController: UIViewController, UITextFieldDelegate, UINavigationControl
     @IBOutlet weak var descriptionTextField: UITextView!
     @IBOutlet weak var ratingControl: RatingControl!
     @IBOutlet weak var alcoholPercentageLabel: UILabel!
+    @IBOutlet weak var addToFavouriteButton: UIButton!
+    
     var beer: Beer?
+    var savedBeers: [NSManagedObject] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        getDataFromBeerDataObject()
+        if savedBeersContainsDisplayedBeer(){
+            addToFavouriteButton.isEnabled = false
+            addToFavouriteButton.isUserInteractionEnabled = false
+            addToFavouriteButton.alpha = 0.5;
+        }
         
           if let beer = beer {
             nameLabel.text = beer.name
@@ -40,6 +51,10 @@ class ViewController: UIViewController, UITextFieldDelegate, UINavigationControl
     
     //MARK: Actions
     @IBAction func addToFavorites(_ sender: UIButton) {
+        saveBeer()
+        addToFavouriteButton.isEnabled = false
+        addToFavouriteButton.isUserInteractionEnabled = false
+        addToFavouriteButton.alpha = 0.5;
     }
     
     @IBAction func addToAlcoholCounter(_ sender: UIButton) {
@@ -49,4 +64,63 @@ class ViewController: UIViewController, UITextFieldDelegate, UINavigationControl
         present(alertBeerDrinked, animated: true, completion: nil)
     }
     
+    //MARK: Private functions
+    private func saveBeer(){
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        let entity =
+            NSEntityDescription.entity(forEntityName: "BeerObject",
+                                       in: managedContext)!
+        let beerFromManagedObject = NSManagedObject(entity: entity,
+                                     insertInto: managedContext)
+        beerFromManagedObject.setValue(beer?.name, forKeyPath: "name")
+        beerFromManagedObject.setValue(beer?.photo, forKeyPath: "photo")
+        beerFromManagedObject.setValue(beer?.rating, forKeyPath: "rating")
+        beerFromManagedObject.setValue(beer?.descriptionBeer, forKeyPath: "descriptionBeer")
+        beerFromManagedObject.setValue(beer?.alcoholPercentage, forKeyPath: "alcoholPercentage")
+        
+        do {
+            try managedContext.save()
+            savedBeers.append(beerFromManagedObject)
+            print("gel")
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
+    }
+    
+    private func savedBeersContainsDisplayedBeer() -> Bool {
+        print(String(savedBeers.count) + "  count")
+        if let unwrappedName = beer?.name {
+            for savedBeer in savedBeers {
+                if savedBeer.value(forKeyPath: "name") as? String == unwrappedName {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+    
+    private func getDataFromBeerDataObject(){
+        guard let appDelegate =
+            UIApplication.shared.delegate as? AppDelegate else {
+                return
+        }
+        
+        let managedContext =
+            appDelegate.persistentContainer.viewContext
+        
+        let fetchRequest =
+            NSFetchRequest<NSManagedObject>(entityName: "BeerObject")
+        
+        do {
+            savedBeers = try managedContext.fetch(fetchRequest)
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
 }
