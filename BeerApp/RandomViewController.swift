@@ -9,8 +9,10 @@
 import UIKit
 import os.log
 import CoreData
+import Alamofire
+import SwiftyJSON
 
-class ViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
+class RandomViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
     
     //MARK: Properties
     @IBOutlet weak var nameLabel: UILabel!
@@ -33,11 +35,11 @@ class ViewController: UIViewController, UITextFieldDelegate, UINavigationControl
             addToFavouriteButton.alpha = 0.5;
         }
         
-          if let beer = beer {
+        if let beer = beer {
             nameLabel.text = beer.name
             photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
             ratingControl.rating = beer.rating
-            alcoholPercentageLabel.text = String(beer.alcoholPercentage)
+            alcoholPercentageLabel.text = String(beer.alcoholPercentage) + " %"
             photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
             descriptionTextField.text = beer.descriptionBeer
         }
@@ -77,7 +79,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UINavigationControl
             NSEntityDescription.entity(forEntityName: "BeerObject",
                                        in: managedContext)!
         let beerFromManagedObject = NSManagedObject(entity: entity,
-                                     insertInto: managedContext)
+                                                    insertInto: managedContext)
         beerFromManagedObject.setValue(beer?.name, forKeyPath: "name")
         beerFromManagedObject.setValue(beer?.photo, forKeyPath: "photo")
         beerFromManagedObject.setValue(beer?.rating, forKeyPath: "rating")
@@ -123,4 +125,28 @@ class ViewController: UIViewController, UITextFieldDelegate, UINavigationControl
             print("Could not fetch. \(error), \(error.userInfo)")
         }
     }
+    
+    private func getRandomBeer(){
+        Alamofire.request("http://api.brewerydb.com/v2/beer/random?key=ea3f42048aa2b2e591a2be6861ca2f26").responseJSON { (responseData) -> Void in
+            if((responseData.result.value) != nil) {
+                let jsonStringResponseData = JSON(responseData.result.value!)
+                
+                self.beer?.name = jsonStringResponseData["data"]["name"].string!
+                self.beer?.descriptionBeer = jsonStringResponseData["data"]["description"].string!
+                self.beer?.alcoholPercentage = jsonStringResponseData["data"]["abv"].double!
+                self.beer?.photo = jsonStringResponseData["data"]["labels"]["medium"].string
+                self.beer?.rating = 0
+                
+                
+            }
+        }
+    }
+    
+    private func somethingWentWrongMessage(){
+        let alertNoBeersFound = UIAlertController(title: "Oops!", message: "Something went wrong with getting random beer", preferredStyle: .alert)
+        alertNoBeersFound.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alertNoBeersFound, animated: true, completion: nil)
+    }
+    
 }
+

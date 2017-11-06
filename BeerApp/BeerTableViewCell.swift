@@ -14,6 +14,7 @@ class BeerTableViewCell: UITableViewCell {
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var ratingControl: RatingControl!
+    @IBOutlet weak var alcoholPercentageLabel: UILabel!
     
     
     

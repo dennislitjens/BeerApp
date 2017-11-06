@@ -14,19 +14,22 @@ class HomeController: UIViewController, UISearchBarDelegate {
     
     // This method lets you configure a view controller before it's presented.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if sender is String {
-            let navigationController = segue.destination as! UINavigationController
-            
-            let beerTableViewController = navigationController.viewControllers.first as! BeerTableViewController
-            
-            beerTableViewController.searchText = searchBar.text!
-            beerTableViewController.senderFromSegue = "searchSegue"
-        }else{
-            let navigationController = segue.destination as! UINavigationController
-            let beerTableViewController = navigationController.viewControllers.first as! BeerTableViewController
-            
-            beerTableViewController.senderFromSegue = "favouriteSegue"
+        if segue.identifier != "driveSegue"{
+            if sender is String {
+                let navigationController = segue.destination as! UINavigationController
+                
+                let beerTableViewController = navigationController.viewControllers.first as! BeerTableViewController
+                
+                beerTableViewController.searchText = searchBar.text!
+                beerTableViewController.senderFromSegue = "searchSegue"
+            }else{
+                let navigationController = segue.destination as! UINavigationController
+                let beerTableViewController = navigationController.viewControllers.first as! BeerTableViewController
+                
+                beerTableViewController.senderFromSegue = "favouriteSegue"
+            }
         }
+        
     }
     
     //MARK: Actions

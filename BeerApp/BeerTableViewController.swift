@@ -32,13 +32,15 @@ class BeerTableViewController: UITableViewController {
         self.tableView.allowsMultipleSelectionDuringEditing = true;
         self.navigationItem.rightBarButtonItem = self.editButtonItem;
         
-        if senderFromSegue == "searchSegue"{
-            self.title = "Search results: " + searchText
-            getSearchedBeers(searchText: searchText)
-        }else if senderFromSegue == "favouriteSegue"{
-            self.title = "Favourite beers"
-            getDataFromBeerDataObject()
-            getSavedBeersToFavourite()
+        DispatchQueue.global(qos: .userInitiated).async {
+            if self.senderFromSegue == "searchSegue"{
+                self.title = "Search results: " + self.searchText
+                self.getSearchedBeers(searchText: self.searchText)
+            }else if self.senderFromSegue == "favouriteSegue"{
+                self.title = "Favourite beers"
+                self.getDataFromBeerDataObject()
+                self.getSavedBeersToFavourite()
+            }
         }
         
         // Uncomment the following line to preserve selection between presentations
@@ -78,7 +80,7 @@ class BeerTableViewController: UITableViewController {
         // Configure the cell
         cell.nameLabel.text = beer.name
         cell.photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
-        cell.ratingControl.rating = beer.rating
+        cell.alcoholPercentageLabel.text = String(beer.alcoholPercentage) + " %"
         
         return cell
     }
@@ -98,11 +100,12 @@ class BeerTableViewController: UITableViewController {
      if editingStyle == .delete {
         // Delete the row from the data source
         beers.remove(at: indexPath.row)
+        
         tableView.deleteRows(at: [indexPath], with: .fade)
         }
      }
     
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+   override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         return UITableViewCellEditingStyle.init(rawValue: 3)!
     }
     
@@ -126,8 +129,8 @@ class BeerTableViewController: UITableViewController {
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any!) {
         super.prepare(for: segue, sender: sender)
-        if let destinationSegue = segue.destination as? ViewController {
-            guard let beerDetailViewController = segue.destination as? ViewController else{
+        if let destinationSegue = segue.destination as? BeerViewController {
+            guard let beerDetailViewController = segue.destination as? BeerViewController else{
                 fatalError("Unexpected destination: \(segue.destination)")
             }
             
@@ -217,11 +220,6 @@ class BeerTableViewController: UITableViewController {
         if savedBeers.count != 0
         {
             for beer in savedBeers {
-                print(beer.value(forKeyPath: "name") as? String)
-                print(beer.value(forKeyPath: "photo") as? String)
-                print(beer.value(forKeyPath: "rating") as? String)
-                print(beer.value(forKeyPath: "descriptionBeer") as? String)
-                print(beer.value(forKeyPath: "alcoholPercentage") as? String)
                 let name = beer.value(forKeyPath: "name") as? String
                 let photo = beer.value(forKeyPath: "photo") as? String
                 let rating = beer.value(forKeyPath: "rating") as? Int
