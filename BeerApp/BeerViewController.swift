@@ -35,6 +35,7 @@ class BeerViewController: UIViewController, UITextFieldDelegate, UINavigationCon
         super.viewDidLoad()
         
         getSavedProfileData()
+        getDataFromBeerDataObject()
         if savedBeersContainsDisplayedBeer(){
             addToFavouriteButton.isEnabled = false
             addToFavouriteButton.isUserInteractionEnabled = false
@@ -44,7 +45,7 @@ class BeerViewController: UIViewController, UITextFieldDelegate, UINavigationCon
           if let beer = beer {
             nameLabel.text = beer.name
             photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
-            ratingControl.rating = beer.rating
+            ratingControl.rating = Int(beer.rating)
             alcoholPercentageLabel.text = String(beer.alcoholPercentage) + " %"
             photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
             descriptionTextField.text = beer.descriptionBeer

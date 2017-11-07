@@ -13,33 +13,50 @@ import SwiftyJSON
 import SDWebImage
 import CoreData
 
-class BeerTableViewController: UITableViewController {
+class BeerTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     //MARK: Outlets
     @IBOutlet var beerTableView: UITableView!
     
     //MARK: Properties
+
+    let persistentContainer = NSPersistentContainer(name: "BeerApp")
     var beers = [Beer]()
     var beersToDelete = [Beer]()
     var searchText = ""
     var savedBeers: [NSManagedObject] = []
     var senderFromSegue: String = ""
+    var isSenderFromSequeSearch: Bool = true
+    
+    fileprivate lazy var fetchedResultsController: NSFetchedResultsController<BeerObject> = {
+        // Create Fetch Request
+        let fetchRequest: NSFetchRequest<BeerObject> = BeerObject.fetchRequest()
+        
+        // Configure Fetch Request
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        
+        // Create Fetched Results Controller
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.persistentContainer.viewContext, sectionNameKeyPath: nil, cacheName: nil)
+        
+        // Configure Fetched Results Controller
+        fetchedResultsController.delegate = self
+        
+        return fetchedResultsController
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.register(BeerTableViewCell.self, forCellReuseIdentifier: "cell")
-        
         self.tableView.allowsMultipleSelectionDuringEditing = true;
-        self.navigationItem.rightBarButtonItem = self.editButtonItem;
-        
         DispatchQueue.global(qos: .userInitiated).async {
             if self.senderFromSegue == "searchSegue"{
                 self.title = "Search results: " + self.searchText
                 self.getSearchedBeers(searchText: self.searchText)
             }else if self.senderFromSegue == "favouriteSegue"{
+                self.navigationItem.rightBarButtonItem = self.editButtonItem;
+                self.isSenderFromSequeSearch = false
                 self.title = "Favourite beers"
-                self.getDataFromBeerDataObject()
-                self.getSavedBeersToFavourite()
+                self.getFetchedBeerObjects()
             }
         }
         
@@ -62,7 +79,15 @@ class BeerTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return beers.count
+        if isSenderFromSequeSearch{
+            return beers.count
+        }else{
+            guard let beersFromDataObjects = fetchedResultsController.fetchedObjects else {
+                return 0
+            }
+            return beersFromDataObjects.count
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -74,17 +99,25 @@ class BeerTableViewController: UITableViewController {
             fatalError("The dequeued cell is not an instance of BeerTableViewCell.")
         }//request a cell from table view
         
+        /*guard let beer = self.fetchedResultsController?.object(at: indexPath) as! Beer? else {
+            fatalError("Attempt to configure cell without a managed object")
+        }*/
+        
         // Fetches the appropriate beer for the data source layout.
-        let beer = beers[indexPath.row]
-        
-        // Configure the cell
-        cell.nameLabel.text = beer.name
-        cell.photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
-        cell.alcoholPercentageLabel.text = String(beer.alcoholPercentage) + " %"
-        
+        if isSenderFromSequeSearch{
+            let beer = beers[indexPath.row]
+            cell.nameLabel.text = beer.name
+            cell.photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
+            cell.alcoholPercentageLabel.text = String(beer.alcoholPercentage) + " %"
+        }else{
+            let beer = fetchedResultsController.object(at: indexPath)
+            cell.nameLabel.text = beer.name
+            cell.photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
+            cell.alcoholPercentageLabel.text = String(beer.alcoholPercentage) + " %"
+        }
         return cell
     }
-    
+        
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
     }
@@ -98,15 +131,30 @@ class BeerTableViewController: UITableViewController {
      // Override to support editing the table view.
      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
      if editingStyle == .delete {
-        // Delete the row from the data source
         beers.remove(at: indexPath.row)
-        
         tableView.deleteRows(at: [indexPath], with: .fade)
         }
      }
     
    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
         return UITableViewCellEditingStyle.init(rawValue: 3)!
+    }
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            tableView.insertRows(at: [newIndexPath!], with: .fade)
+        case .delete:
+            tableView.deleteRows(at: [indexPath!], with: .fade)
+        case .update:
+            tableView.reloadRows(at: [indexPath!], with: .fade)
+        case .move:
+            tableView.moveRow(at: indexPath!, to: newIndexPath!)
+        }
     }
     
     /*
@@ -142,97 +190,52 @@ class BeerTableViewController: UITableViewController {
                 fatalError("The selected cell is not being displayed by the table")
             }
             
-            let selectedBeer = beers[indexPath.row]
-            beerDetailViewController.beer = selectedBeer
+            if isSenderFromSequeSearch{
+                let selectedBeer = beers[indexPath.row]
+                beerDetailViewController.beer = selectedBeer
+            }else{
+                let selectedBeer = fetchedResultsController.object(at: indexPath)
+                beerDetailViewController.beer = convertBeerObjectToBeer(beerObject: selectedBeer)
+            }
         }
     }
     
     //MARK: Actions
     
     
-    
-    /*@IBAction func unwindToMealList(sender: UIStoryboardSegue){
-        if let sourceViewController = sender.source as?
-            ViewController, let meal = sourceViewController.meal{
-            
-            if let selectedIndexPath = tableView.indexPathForSelectedRow{
-                // Update an existing meal.
-                meals[selectedIndexPath.row] = meal
-                tableView.reloadRows(at: [selectedIndexPath], with: .none)
-            }else{
-                // Add a new meal
-                let newIndexPath = IndexPath(row: meals.count, section: 0)
-                meals.append(meal)
-                tableView.insertRows(at: [newIndexPath], with: .automatic)
-            }
-            // Save the meals
-            saveMeals()
-        }
-    }*/
-    
     @IBAction func didTapBringCheckBoxBtn(_ sender: UIBarButtonItem) {
     }
     
     
     //MARK: Private Methods
-    
-    /*private func loadSampleBeers() {
-        let photo1 = UIImage(named: "beer1")
-        let photo2 = UIImage(named: "beer2")
-        let photo3 = UIImage(named: "beer3")
-        os_log("hall", log: OSLog.default, type: .debug)
-        
-        guard let beer1 = Beer(name: "Duvel", photo: photo1, rating: 4, descriptionBeer: "Duvel is a natural beer with a subtle bitterness, a refined flavour and a distinctive hop character. The unique brewing process, which takes about 90 days, guarantees a pure character, delicate effervescence and a pleasant sweet taste of alcohol.", alcoholPercentage: 8.5) else {
-            fatalError("Unable to instantiate beer1")
-        }
-        
-        guard let beer2 = Beer(name: "Leffe", photo: photo2, rating: 5, descriptionBeer: "Leffe Blond is an authentic blond abbey beer with a slight hint of bitterness to it.", alcoholPercentage: 6.6) else {
-            fatalError("Unable to instantiate beer2")
-        }
-        
-        guard let beer3 = Beer(name: "Jupiler", photo: photo3, rating: 3, descriptionBeer: "Jupiler is the most famous and most popular beer in Belgium. This delicious lager is brewed with the finest ingredients (malt, maize, water, hop, yeast), using undisputed craftsmanship, ensuring an outstanding beer quality. Jupiler offers refreshment on a wide variety of occasions, thanks to its digestibility and accessible taste. Jupiler (5,2 % ABV) is ideally served at a temperature of 3Ã?Â°C. The low-alcoholic variant Jupiler N.A. (0.5%) should be served at 1-2Ã?Â°C.", alcoholPercentage: 5.2) else {
-            fatalError("Unable to instantiate beer3")
-        }
-        
-        beers += [beer1, beer2, beer3]
-    }*/
-    
-    private func getDataFromBeerDataObject(){
-        guard let appDelegate =
-            UIApplication.shared.delegate as? AppDelegate else {
-                return
-        }
-        
-        let managedContext =
-            appDelegate.persistentContainer.viewContext
-        
-        let fetchRequest =
-            NSFetchRequest<NSManagedObject>(entityName: "BeerObject")
-        
-        do {
-            savedBeers = try managedContext.fetch(fetchRequest)
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
+    private func getFetchedBeerObjects(){
+        self.persistentContainer.loadPersistentStores { (persistentStoreDescription, error) in
+            if let error = error {
+                print("Unable to Load Persistent Store")
+                print("\(error), \(error.localizedDescription)")
+                
+            } else {
+                do {
+                    try self.fetchedResultsController.performFetch()
+                } catch {
+                    let fetchError = error as NSError
+                    print("Unable to Perform Fetch Request")
+                    print("\(fetchError), \(fetchError.localizedDescription)")
+                }
+                self.beerTableView.reloadData()
+            }
         }
     }
     
-    private func getSavedBeersToFavourite(){
-        if savedBeers.count != 0
-        {
-            for beer in savedBeers {
-                let name = beer.value(forKeyPath: "name") as? String
-                let photo = beer.value(forKeyPath: "photo") as? String
-                let rating = beer.value(forKeyPath: "rating") as? Int
-                let descriptionBeer = beer.value(forKeyPath: "descriptionBeer") as? String
-                let alcoholPercentage = beer.value(forKeyPath: "alcoholPercentage") as? Double
-                
-                let newBeerFromSavedBeer = Beer(name: name!, photo: photo, rating: rating!, descriptionBeer: descriptionBeer!, alcoholPercentage: alcoholPercentage!)
-                self.beers.append(newBeerFromSavedBeer!)
-            }
-        }else{
-            showNoBeersFoundMessage()
-        }
+    private func convertBeerObjectToBeer(beerObject: BeerObject) -> Beer{
+        let name = beerObject.name
+        let description = beerObject.descriptionBeer
+        let alcoholPercentage = beerObject.alcoholPercentage
+        let photoUrl = beerObject.photo
+        let rating = beerObject.rating
         
+        let convertedBeer = Beer(name: name!, photo: photoUrl!, rating: rating, descriptionBeer: description!, alcoholPercentage: alcoholPercentage)
+        return convertedBeer!
     }
     
     private func showNoBeersFoundMessage(){
@@ -242,7 +245,6 @@ class BeerTableViewController: UITableViewController {
     }
     
     private func getSearchedBeers(searchText: String){
-        var beersData = [Beer]()
         var arrayNames = [String]()
         var arrayDescriptions = [String]()
         var arrayImageUrls = [String]()
@@ -276,6 +278,6 @@ class BeerTableViewController: UITableViewController {
                 }
                 self.beerTableView.reloadData()
         }
+        }
     }
-}
 }

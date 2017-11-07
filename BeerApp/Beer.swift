@@ -5,7 +5,6 @@
 //  Created by Dennis Litjens on 2/10/17.
 //  Copyright © 2017 Dennis Litjens. All rights reserved.
 //
-
 import UIKit
 import os.log
 import CoreData
@@ -14,11 +13,11 @@ class Beer : NSObject, NSCoding {
     
     //MARK: Properties
     
-    var name: String
+    var name: String = ""
     var photo: String? //optional
-    var rating: Int
-    var descriptionBeer: String
-    var alcoholPercentage: Double
+    var rating: Int16 = 0
+    var descriptionBeer: String = ""
+    var alcoholPercentage: Double = 0.0
     
     //MARK: Archiving Paths
     
@@ -36,7 +35,7 @@ class Beer : NSObject, NSCoding {
     }
     
     //MARK: Initialization
-    init?(name: String, photo: String?, rating: Int, descriptionBeer: String, alcoholPercentage: Double) {
+    init?(name: String, photo: String?, rating: Int16, descriptionBeer: String, alcoholPercentage: Double) {
         // Initialization should fail if there is no name or if the rating is negative.
         if name.isEmpty || rating < 0  {
             return nil
@@ -76,6 +75,7 @@ class Beer : NSObject, NSCoding {
         let alcoholPercentage = aDecoder.decodeDouble(forKey: PropertyKey.alcoholPercentage)
         
         // Must call designated initializer.
-        self.init(name: name, photo: photo, rating: rating, descriptionBeer: descriptionBeer, alcoholPercentage: alcoholPercentage)
+        self.init(name: name, photo: photo, rating: Int16(rating), descriptionBeer: descriptionBeer, alcoholPercentage: alcoholPercentage)
     }
 }
+
