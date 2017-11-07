@@ -125,35 +125,43 @@ class BeerTableViewController: UITableViewController, NSFetchedResultsController
      // Override to support conditional editing of the table view.
      override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
      // Return false if you do not want the specified item to be editable.
-     return true
+        if isSenderFromSequeSearch{
+            return false
+        }else{
+            return true
+        }
      }
     
      // Override to support editing the table view.
      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-        beers.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .fade)
+        if editingStyle == .delete {
+            let beerToDelete = fetchedResultsController.object(at: indexPath)
+            beerToDelete.managedObjectContext?.delete(beerToDelete)
+            do {
+                try persistentContainer.viewContext.save()
+            } catch {
+                print("\(error), \(error.localizedDescription)")
+            }
         }
      }
     
    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        return UITableViewCellEditingStyle.init(rawValue: 3)!
-    }
-    
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView.beginUpdates()
+        //return UITableViewCellEditingStyle.init(rawValue: 3)!
+        return .delete
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
-        case .insert:
-            tableView.insertRows(at: [newIndexPath!], with: .fade)
         case .delete:
-            tableView.deleteRows(at: [indexPath!], with: .fade)
-        case .update:
-            tableView.reloadRows(at: [indexPath!], with: .fade)
-        case .move:
-            tableView.moveRow(at: indexPath!, to: newIndexPath!)
+            if let indexPath = indexPath {
+                print(indexPath)
+                self.beerTableView.beginUpdates()
+                self.beerTableView.deleteRows(at: [indexPath], with: .automatic)
+                self.beerTableView.endUpdates()
+            }
+            break;
+        default:
+            print("Something went wrong, wrong editingtype selected")
         }
     }
     

@@ -401,7 +401,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="phj-WE-qCZ">
-                                <rect key="frame" x="15" y="30" width="220" height="360"/>
+                                <rect key="frame" x="15" y="74" width="220" height="360"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="9a1-PP-ksq">
                                         <rect key="frame" x="0.0" y="0.0" width="220" height="176"/>
