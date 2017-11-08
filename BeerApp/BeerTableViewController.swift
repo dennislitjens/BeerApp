@@ -48,17 +48,26 @@ class BeerTableViewController: UITableViewController, NSFetchedResultsController
         super.viewDidLoad()
         self.tableView.register(BeerTableViewCell.self, forCellReuseIdentifier: "cell")
         self.tableView.allowsMultipleSelectionDuringEditing = true;
-        DispatchQueue.global(qos: .userInitiated).async {
+        
             if self.senderFromSegue == "searchSegue"{
                 self.title = "Search results: " + self.searchText
-                self.getSearchedBeers(searchText: self.searchText)
+                let downloadGroup = DispatchGroup()
+                downloadGroup.enter()
+                self.getSearchedBeers(searchText: self.searchText, downloadGroup: downloadGroup)
+                DispatchQueue.global(qos: .background).async {
+                    downloadGroup.wait()
+                    DispatchQueue.main.async {
+                        self.beerTableView.reloadData()
+                    }
+                }
             }else if self.senderFromSegue == "favouriteSegue"{
                 self.navigationItem.rightBarButtonItem = self.editButtonItem;
                 self.isSenderFromSequeSearch = false
                 self.title = "Favourite beers"
                 self.getFetchedBeerObjects()
             }
-        }
+        
+        
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -111,8 +120,8 @@ class BeerTableViewController: UITableViewController, NSFetchedResultsController
             cell.alcoholPercentageLabel.text = String(beer.alcoholPercentage) + " %"
         }else{
             let beer = fetchedResultsController.object(at: indexPath)
-            cell.nameLabel.text = beer.name
             cell.photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
+            cell.nameLabel.text = beer.name
             cell.alcoholPercentageLabel.text = String(beer.alcoholPercentage) + " %"
         }
         return cell
@@ -149,6 +158,8 @@ class BeerTableViewController: UITableViewController, NSFetchedResultsController
         //return UITableViewCellEditingStyle.init(rawValue: 3)!
         return .delete
     }
+    
+    
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
@@ -252,7 +263,7 @@ class BeerTableViewController: UITableViewController, NSFetchedResultsController
         present(alertNoBeersFound, animated: true, completion: nil)
     }
     
-    private func getSearchedBeers(searchText: String){
+    private func getSearchedBeers(searchText: String, downloadGroup: DispatchGroup){
         var arrayNames = [String]()
         var arrayDescriptions = [String]()
         var arrayImageUrls = [String]()
@@ -261,6 +272,7 @@ class BeerTableViewController: UITableViewController, NSFetchedResultsController
         Alamofire.request("http://api.brewerydb.com/v2/search?q=" + searchText + "&type=beer&key=ea3f42048aa2b2e591a2be6861ca2f26").responseJSON { (responseData) -> Void in
             if((responseData.result.value) != nil) {
                 let jsonStringResponseData = JSON(responseData.result.value!)
+                print(jsonStringResponseData)
                 arrayNames =  jsonStringResponseData["data"].arrayValue.map({$0["name"].stringValue})
                 arrayDescriptions =  jsonStringResponseData["data"].arrayValue.map({$0["description"].stringValue})
                 arrayImageUrls = jsonStringResponseData["data"].arrayValue.map({$0["labels"]["medium"].stringValue})
@@ -279,12 +291,11 @@ class BeerTableViewController: UITableViewController, NSFetchedResultsController
                         }
                         
                         self.beers += [beer]
-                        
                     }
+                    downloadGroup.leave()
                 }else{
                     self.showNoBeersFoundMessage()
                 }
-                self.beerTableView.reloadData()
         }
         }
     }

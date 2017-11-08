@@ -131,7 +131,6 @@ class BeerViewController: UIViewController, UITextFieldDelegate, UINavigationCon
         do {
             try managedContext.save()
             savedBeers.append(beerFromManagedObject)
-            print("gel")
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }

@@ -14,35 +14,65 @@ import SwiftyJSON
 
 class RandomViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
     
-    //MARK: Properties
-    @IBOutlet weak var nameLabel: UILabel!
+    //MARK: Outlets
     @IBOutlet weak var photoImageView: UIImageView!
-    @IBOutlet weak var descriptionTextField: UITextView!
-    @IBOutlet weak var ratingControl: RatingControl!
+    @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var alcoholPercentageLabel: UILabel!
+    @IBOutlet weak var ratingControl: RatingControl!
+    @IBOutlet weak var descriptionTextField: UITextView!
     @IBOutlet weak var addToFavouriteButton: UIButton!
     
+    
+    //MARK: Properties
     var beer: Beer?
     var savedBeers: [NSManagedObject] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         getDataFromBeerDataObject()
-        if savedBeersContainsDisplayedBeer(){
-            addToFavouriteButton.isEnabled = false
-            addToFavouriteButton.isUserInteractionEnabled = false
-            addToFavouriteButton.alpha = 0.5;
-        }
         
-        if let beer = beer {
-            nameLabel.text = beer.name
-            photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
-            ratingControl.rating = Int(beer.rating)
-            alcoholPercentageLabel.text = String(beer.alcoholPercentage) + " %"
-            photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
-            descriptionTextField.text = beer.descriptionBeer
+        let downloadGroup = DispatchGroup()
+        downloadGroup.enter()
+        getRandomBeer(downloadGroup: downloadGroup)
+        
+        DispatchQueue.global(qos: .background).async {
+            downloadGroup.wait()
+            DispatchQueue.main.async {
+                if self.savedBeersContainsDisplayedBeer(){
+                    self.addToFavouriteButton.isEnabled = false
+                    self.addToFavouriteButton.isUserInteractionEnabled = false
+                    self.addToFavouriteButton.alpha = 0.5;
+                }
+                if let beer = self.beer {
+                    self.nameLabel.text = beer.name
+                    self.photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
+                    self.ratingControl.rating = Int(beer.rating)
+                    self.alcoholPercentageLabel.text = String(beer.alcoholPercentage) + " %"
+                    self.photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
+                    self.descriptionTextField.text = beer.descriptionBeer
+                }
+            }
         }
+        /*
+        downloadGroup.notify(queue: DispatchQueue.main) {
+            print("hallo")
+            if self.savedBeersContainsDisplayedBeer(){
+                self.addToFavouriteButton.isEnabled = false
+                self.addToFavouriteButton.isUserInteractionEnabled = false
+                self.addToFavouriteButton.alpha = 0.5;
+            }
+            
+            if let beer = self.beer {
+                self.nameLabel.text = beer.name
+                self.photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
+                self.ratingControl.rating = Int(beer.rating)
+                self.alcoholPercentageLabel.text = String(beer.alcoholPercentage) + " %"
+                self.photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
+                self.descriptionTextField.text = beer.descriptionBeer
+            }
+            
+        }*/
+        
     }
     
     
@@ -54,9 +84,11 @@ class RandomViewController: UIViewController, UITextFieldDelegate, UINavigationC
     //MARK: Actions
     @IBAction func addToFavorites(_ sender: UIButton) {
         saveBeer()
+        /*
         addToFavouriteButton.isEnabled = false
         addToFavouriteButton.isUserInteractionEnabled = false
         addToFavouriteButton.alpha = 0.5;
+         */
     }
     
     @IBAction func addToAlcoholCounter(_ sender: UIButton) {
@@ -126,18 +158,17 @@ class RandomViewController: UIViewController, UITextFieldDelegate, UINavigationC
         }
     }
     
-    private func getRandomBeer(){
+    private func getRandomBeer(downloadGroup: DispatchGroup){
         Alamofire.request("http://api.brewerydb.com/v2/beer/random?key=ea3f42048aa2b2e591a2be6861ca2f26").responseJSON { (responseData) -> Void in
             if((responseData.result.value) != nil) {
                 let jsonStringResponseData = JSON(responseData.result.value!)
-                
-                self.beer?.name = jsonStringResponseData["data"]["name"].string!
-                self.beer?.descriptionBeer = jsonStringResponseData["data"]["description"].string!
-                self.beer?.alcoholPercentage = jsonStringResponseData["data"]["abv"].double!
-                self.beer?.photo = jsonStringResponseData["data"]["labels"]["medium"].string
-                self.beer?.rating = 0
-                
-                
+                let name = jsonStringResponseData["data"]["name"].string ?? "No name"
+                let descriptionBeer = jsonStringResponseData["data"]["description"].string ?? "No description"
+                let alcoholPercentage = jsonStringResponseData["data"]["abv"].doubleValue ?? 0
+                let photo = jsonStringResponseData["data"]["labels"]["medium"].string ?? ""
+                let rating = 4
+                self.beer = Beer(name: name, photo: photo, rating: Int16(rating), descriptionBeer: descriptionBeer, alcoholPercentage: alcoholPercentage)
+                downloadGroup.leave()
             }
         }
     }

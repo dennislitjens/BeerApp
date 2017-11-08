@@ -137,7 +137,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hsQ-Lk-yHg">
+                            <navigationBar hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hsQ-Lk-yHg">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             </navigationBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="viQ-zr-7Fs">
@@ -252,7 +252,7 @@
                                                             <fontDescription key="fontDescription" type="system" pointSize="60"/>
                                                         </variation>
                                                         <connections>
-                                                            <segue destination="uA7-zC-WNL" kind="showDetail" id="jYD-2X-lAO"/>
+                                                            <segue destination="uA7-zC-WNL" kind="show" identifier="randomSegue" id="zzY-cY-fzJ"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tzp-PG-wW5">
@@ -342,7 +342,7 @@
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="L1j-70-Uh2"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Duvel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0RJ-jA-KwL">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0RJ-jA-KwL">
                                             <rect key="frame" x="98" y="8" width="214" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -576,18 +576,18 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0ZE-Lv-edI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="150" y="127"/>
+            <point key="canvasLocation" x="86" y="127"/>
         </scene>
-        <!--Random View Controller-->
+        <!--Random beer-->
         <scene sceneID="zX1-Re-YU3">
             <objects>
-                <viewController id="uA7-zC-WNL" customClass="RandomViewController" sceneMemberID="viewController">
+                <viewController title="Random beer" id="uA7-zC-WNL" customClass="RandomViewController" customModule="BeerApp" sceneMemberID="viewController">
                     <view key="view" contentMode="center" ambiguous="YES" id="kdu-ft-jxJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="TwP-wI-zjT">
-                                <rect key="frame" x="15" y="30" width="220" height="360"/>
+                                <rect key="frame" x="15" y="74" width="220" height="360"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="wcy-nf-0Iz">
                                         <rect key="frame" x="0.0" y="0.0" width="220" height="176"/>
@@ -595,14 +595,14 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="D8D-pG-hkI">
                                                 <rect key="frame" x="0.0" y="0.0" width="220" height="88"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="beer1" translatesAutoresizingMaskIntoConstraints="NO" id="EZz-pA-AuQ">
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="defaultNoImage" translatesAutoresizingMaskIntoConstraints="NO" id="EZz-pA-AuQ">
                                                         <rect key="frame" x="0.0" y="0.0" width="68" height="88"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </imageView>
                                                     <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="6ix-dG-i2j">
                                                         <rect key="frame" x="76" y="0.0" width="68" height="88"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Duvel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhC-gV-J4v">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhC-gV-J4v">
                                                                 <rect key="frame" x="0.0" y="0.0" width="68" height="29.5"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
@@ -611,7 +611,7 @@
                                                                     <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                                 </variation>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="6,8 %" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXh-Kd-u6U">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXh-Kd-u6U">
                                                                 <rect key="frame" x="0.0" y="29.5" width="68" height="29"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                                 <nil key="textColor"/>
@@ -692,7 +692,6 @@
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="lY2-j6-zH3">
                                         <rect key="frame" x="0.0" y="184" width="220" height="176"/>
                                         <color key="backgroundColor" red="0.19322133799999999" green="0.80458630180000001" blue="0.38951964859999999" alpha="0.68000000000000005" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         <variation key="heightClass=regular-widthClass=regular">
@@ -711,22 +710,24 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zLB-iM-tKQ"/>
                     </view>
+                    <navigationItem key="navigationItem" id="JA6-9A-e8k"/>
                     <connections>
-                        <outlet property="addToFavouriteButton" destination="glN-wU-LQG" id="Tmj-Pu-JkW"/>
-                        <outlet property="alcoholPercentageLabel" destination="vXh-Kd-u6U" id="uPd-qD-Hhg"/>
-                        <outlet property="descriptionTextField" destination="lY2-j6-zH3" id="ehE-m2-zCy"/>
-                        <outlet property="nameLabel" destination="bhC-gV-J4v" id="QLB-Ba-8H8"/>
-                        <outlet property="photoImageView" destination="EZz-pA-AuQ" id="eEC-Ee-wql"/>
-                        <outlet property="ratingControl" destination="MTL-G1-I8W" id="lqw-a5-jOe"/>
+                        <outlet property="addToFavouriteButton" destination="glN-wU-LQG" id="QBo-8T-wds"/>
+                        <outlet property="alcoholPercentageLabel" destination="vXh-Kd-u6U" id="q9y-Ri-Hce"/>
+                        <outlet property="descriptionTextField" destination="lY2-j6-zH3" id="v1a-1Z-9zV"/>
+                        <outlet property="nameLabel" destination="bhC-gV-J4v" id="5tN-tV-Bfi"/>
+                        <outlet property="photoImageView" destination="EZz-pA-AuQ" id="kDy-3n-olZ"/>
+                        <outlet property="ratingControl" destination="MTL-G1-I8W" id="elA-ZV-Bjp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mQI-2q-25N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="872" y="882"/>
+            <point key="canvasLocation" x="872" y="998"/>
         </scene>
     </scenes>
     <resources>
         <image name="beer1" width="150" height="175"/>
+        <image name="defaultNoImage" width="121" height="112"/>
         <image name="homeBeer" width="425" height="467"/>
         <image name="imageView:rq9-Cy-hRw:image" width="150" height="175">
             <mutableData key="keyedArchiveRepresentation">
