@@ -605,142 +605,123 @@
         <scene sceneID="zX1-Re-YU3">
             <objects>
                 <viewController title="Random beer" id="uA7-zC-WNL" customClass="RandomViewController" customModule="BeerApp" sceneMemberID="viewController">
-                    <view key="view" contentMode="center" ambiguous="YES" id="kdu-ft-jxJ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <view key="view" contentMode="center" id="kdu-ft-jxJ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="TwP-wI-zjT">
-                                <rect key="frame" x="15" y="74" width="220" height="360"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ft3-f0-Pnt">
+                                <rect key="frame" x="15" y="10" width="13499999598" height="72000000008"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="wcy-nf-0Iz">
-                                        <rect key="frame" x="0.0" y="0.0" width="220" height="176"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="hNd-we-bTk">
+                                        <rect key="frame" x="0.0" y="0.0" width="13499999598" height="36000000000"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="D8D-pG-hkI">
-                                                <rect key="frame" x="0.0" y="0.0" width="220" height="88"/>
+                                            <stackView opaque="NO" contentMode="center" axis="vertical" distribution="fillEqually" baselineRelativeArrangement="YES" translatesAutoresizingMaskIntoConstraints="NO" id="isE-1G-lNz">
+                                                <rect key="frame" x="0.0" y="0.0" width="13499999598" height="18000000000"/>
                                                 <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="defaultNoImage" translatesAutoresizingMaskIntoConstraints="NO" id="EZz-pA-AuQ">
-                                                        <rect key="frame" x="0.0" y="0.0" width="68" height="88"/>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="defaultNoImage" translatesAutoresizingMaskIntoConstraints="NO" id="tzi-iN-jXH">
+                                                        <rect key="frame" x="0.0" y="0.0" width="13499999598" height="18000000000"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" secondItem="tzi-iN-jXH" secondAttribute="width" multiplier="4:3" id="aR0-ZN-V1u"/>
+                                                        </constraints>
                                                     </imageView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="6ix-dG-i2j">
-                                                        <rect key="frame" x="76" y="0.0" width="68" height="88"/>
-                                                        <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhC-gV-J4v">
-                                                                <rect key="frame" x="0.0" y="0.0" width="68" height="29.5"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                                <variation key="heightClass=regular-widthClass=regular">
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                                                </variation>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vXh-Kd-u6U">
-                                                                <rect key="frame" x="0.0" y="29.5" width="68" height="29"/>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                                <nil key="textColor"/>
-                                                                <nil key="highlightedColor"/>
-                                                                <variation key="heightClass=regular-widthClass=regular">
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                                                </variation>
-                                                            </label>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="GQO-8O-0Zo">
-                                                                <rect key="frame" x="0.0" y="58.5" width="68" height="29.5"/>
-                                                            </stackView>
-                                                        </subviews>
-                                                    </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="JHN-Ch-xY8">
-                                                        <rect key="frame" x="152" y="0.0" width="68" height="88"/>
-                                                        <subviews>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="cCB-FL-UZn">
-                                                                <rect key="frame" x="0.0" y="0.0" width="68" height="44"/>
-                                                            </stackView>
-                                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="W3n-S3-W4t">
-                                                                <rect key="frame" x="0.0" y="44" width="68" height="44"/>
-                                                            </stackView>
-                                                        </subviews>
-                                                    </stackView>
                                                 </subviews>
+                                                <color key="backgroundColor" red="0.67390329149999995" green="0.78938633420000004" blue="0.66818549849999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
-                                                    <constraint firstItem="JHN-Ch-xY8" firstAttribute="leading" secondItem="6ix-dG-i2j" secondAttribute="trailing" id="0ev-Dz-AXr"/>
-                                                    <constraint firstItem="EZz-pA-AuQ" firstAttribute="leading" secondItem="D8D-pG-hkI" secondAttribute="leading" id="3Un-da-5V9"/>
-                                                    <constraint firstAttribute="height" constant="100" id="H4j-ml-ilb"/>
-                                                    <constraint firstAttribute="bottom" secondItem="EZz-pA-AuQ" secondAttribute="bottom" id="L6r-Qg-QDQ"/>
-                                                    <constraint firstItem="6ix-dG-i2j" firstAttribute="leading" secondItem="EZz-pA-AuQ" secondAttribute="trailing" id="Td4-uf-Tun"/>
-                                                    <constraint firstItem="JHN-Ch-xY8" firstAttribute="top" secondItem="D8D-pG-hkI" secondAttribute="top" id="W2A-wC-hqR"/>
-                                                    <constraint firstAttribute="trailing" secondItem="JHN-Ch-xY8" secondAttribute="trailing" id="bm3-TN-vpE"/>
-                                                    <constraint firstItem="6ix-dG-i2j" firstAttribute="leading" secondItem="EZz-pA-AuQ" secondAttribute="trailing" constant="8" id="gyU-dP-7r5"/>
-                                                    <constraint firstItem="6ix-dG-i2j" firstAttribute="top" secondItem="D8D-pG-hkI" secondAttribute="top" id="lk5-fc-7aG"/>
-                                                    <constraint firstAttribute="bottom" secondItem="JHN-Ch-xY8" secondAttribute="bottom" id="oNJ-sV-gF9"/>
-                                                    <constraint firstItem="EZz-pA-AuQ" firstAttribute="top" secondItem="D8D-pG-hkI" secondAttribute="top" id="s07-Wk-HWi"/>
-                                                    <constraint firstAttribute="bottom" secondItem="6ix-dG-i2j" secondAttribute="bottom" id="xO0-Gj-NUR"/>
+                                                    <constraint firstAttribute="height" constant="100" id="Fjq-zT-e45"/>
+                                                    <constraint firstAttribute="bottom" secondItem="tzi-iN-jXH" secondAttribute="bottom" id="TIZ-9Y-pGX"/>
+                                                    <constraint firstItem="tzi-iN-jXH" firstAttribute="top" secondItem="isE-1G-lNz" secondAttribute="top" id="VQQ-yv-mer"/>
                                                 </constraints>
                                             </stackView>
-                                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="S3j-uO-yYN">
-                                                <rect key="frame" x="0.0" y="88" width="220" height="88"/>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Xea-L6-ofj">
+                                                <rect key="frame" x="0.0" y="18000000000" width="13499999598" height="18000000000"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="MTL-G1-I8W" customClass="RatingControl" customModule="BeerApp" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="0.0" width="220" height="44"/>
-                                                    </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Hsd-jH-udD">
-                                                        <rect key="frame" x="0.0" y="44" width="220" height="44"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="A5d-51-bdr">
+                                                        <rect key="frame" x="0.0" y="0.0" width="13499999598" height="18000000000"/>
                                                         <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="glN-wU-LQG">
-                                                                <rect key="frame" x="0.0" y="0.0" width="105" height="44"/>
-                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                <state key="normal" title="❤️"/>
-                                                                <variation key="heightClass=regular-widthClass=regular">
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="70"/>
-                                                                </variation>
-                                                                <connections>
-                                                                    <action selector="addToFavorites:" destination="uA7-zC-WNL" eventType="touchUpInside" id="HY3-9B-xXr"/>
-                                                                </connections>
-                                                            </button>
-                                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7C4-Kp-QhS">
-                                                                <rect key="frame" x="115" y="0.0" width="105" height="44"/>
-                                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                <state key="normal" title="🍺"/>
-                                                                <variation key="heightClass=regular-widthClass=regular">
-                                                                    <fontDescription key="fontDescription" type="system" pointSize="70"/>
-                                                                </variation>
-                                                                <connections>
-                                                                    <action selector="addToAlcoholCounter:" destination="uA7-zC-WNL" eventType="touchUpInside" id="2Ny-6H-TJa"/>
-                                                                </connections>
-                                                            </button>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="CO3-n7-ZBu">
+                                                                <rect key="frame" x="0.0" y="0.0" width="13499999598" height="9000000000"/>
+                                                                <subviews>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2w8-gs-L8z">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="13499999598" height="9000000000"/>
+                                                                        <fontDescription key="fontDescription" name="Verdana-Bold" family="Verdana" pointSize="23"/>
+                                                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <nil key="highlightedColor"/>
+                                                                        <variation key="heightClass=regular-widthClass=regular">
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                                                        </variation>
+                                                                    </label>
+                                                                </subviews>
+                                                            </stackView>
+                                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="0cr-IX-UbY">
+                                                                <rect key="frame" x="0.0" y="9000000000" width="13499999598" height="9000000000"/>
+                                                                <subviews>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C2y-xi-dzT">
+                                                                        <rect key="frame" x="0.0" y="0.0" width="6749999794" height="9000000000"/>
+                                                                        <color key="backgroundColor" red="0.99943333860000005" green="0.80882412199999998" blue="0.9309183955" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                                        <state key="normal" title="❤️"/>
+                                                                        <variation key="heightClass=compact-widthClass=regular">
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="40"/>
+                                                                        </variation>
+                                                                        <connections>
+                                                                            <action selector="addToFavorites:" destination="XcH-d8-5Ex" eventType="touchUpInside" id="2K0-wU-hKG"/>
+                                                                            <action selector="addToFavorites:" destination="uA7-zC-WNL" eventType="touchUpInside" id="Jm3-l3-ixg"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EtV-Gt-u1z">
+                                                                        <rect key="frame" x="6749999804" y="0.0" width="6749999794" height="9000000000"/>
+                                                                        <color key="backgroundColor" red="0.99943333860000005" green="0.80882412199999998" blue="0.9309183955" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                                        <state key="normal" title="🍺"/>
+                                                                        <variation key="heightClass=regular-widthClass=regular">
+                                                                            <fontDescription key="fontDescription" type="system" pointSize="70"/>
+                                                                        </variation>
+                                                                        <connections>
+                                                                            <action selector="addToAlcoholCounter:" destination="XcH-d8-5Ex" eventType="touchUpInside" id="XNt-Qh-k0X"/>
+                                                                            <action selector="addToAlcoholCounter:" destination="uA7-zC-WNL" eventType="touchUpInside" id="gCP-qu-jou"/>
+                                                                        </connections>
+                                                                    </button>
+                                                                </subviews>
+                                                            </stackView>
                                                         </subviews>
                                                     </stackView>
                                                 </subviews>
+                                                <color key="backgroundColor" red="0.67390329149999995" green="0.78938633420000004" blue="0.66818549849999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </stackView>
                                         </subviews>
                                     </stackView>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="lY2-j6-zH3">
-                                        <rect key="frame" x="0.0" y="184" width="220" height="176"/>
-                                        <color key="backgroundColor" red="0.19322133799999999" green="0.80458630180000001" blue="0.38951964859999999" alpha="0.68000000000000005" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="7MQ-uN-Ne0">
+                                        <rect key="frame" x="0.0" y="36000000008" width="13499999598" height="36000000000"/>
+                                        <color key="backgroundColor" red="0.438998051" green="0.51613099090000003" blue="0.4367499205" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="Verdana" family="Verdana" pointSize="15"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         <variation key="heightClass=regular-widthClass=regular">
                                             <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         </variation>
                                     </textView>
                                 </subviews>
+                                <color key="backgroundColor" red="0.67390329149999995" green="0.78938633420000004" blue="0.66818549849999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" red="0.91571038959999995" green="0.99845427269999998" blue="0.8740686178" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.67390329149999995" green="0.78938633420000004" blue="0.66818549849999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="TwP-wI-zjT" firstAttribute="top" secondItem="zLB-iM-tKQ" secondAttribute="top" constant="10" id="1GA-XT-dYq"/>
-                            <constraint firstItem="zLB-iM-tKQ" firstAttribute="trailing" secondItem="TwP-wI-zjT" secondAttribute="trailing" constant="15" id="6dl-lo-Nqc"/>
-                            <constraint firstItem="TwP-wI-zjT" firstAttribute="leading" secondItem="zLB-iM-tKQ" secondAttribute="leading" constant="15" id="Dfo-bE-GMh"/>
-                            <constraint firstItem="zLB-iM-tKQ" firstAttribute="bottom" secondItem="TwP-wI-zjT" secondAttribute="bottom" constant="15" id="Z8j-pq-5T7"/>
+                            <constraint firstItem="zLB-iM-tKQ" firstAttribute="bottom" secondItem="ft3-f0-Pnt" secondAttribute="bottom" constant="15" id="8Rb-b3-3O5"/>
+                            <constraint firstItem="ft3-f0-Pnt" firstAttribute="leading" secondItem="zLB-iM-tKQ" secondAttribute="leading" constant="15" id="f5k-gv-1ER"/>
+                            <constraint firstItem="zLB-iM-tKQ" firstAttribute="trailing" secondItem="ft3-f0-Pnt" secondAttribute="trailing" constant="15" id="fe3-IP-7Wi"/>
+                            <constraint firstItem="ft3-f0-Pnt" firstAttribute="top" secondItem="kdu-ft-jxJ" secondAttribute="top" constant="10" id="nX3-WZ-HCX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zLB-iM-tKQ"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
                     <navigationItem key="navigationItem" id="JA6-9A-e8k"/>
                     <connections>
-                        <outlet property="addToFavouriteButton" destination="glN-wU-LQG" id="QBo-8T-wds"/>
-                        <outlet property="alcoholPercentageLabel" destination="vXh-Kd-u6U" id="q9y-Ri-Hce"/>
-                        <outlet property="descriptionTextField" destination="lY2-j6-zH3" id="v1a-1Z-9zV"/>
-                        <outlet property="nameLabel" destination="bhC-gV-J4v" id="5tN-tV-Bfi"/>
-                        <outlet property="photoImageView" destination="EZz-pA-AuQ" id="kDy-3n-olZ"/>
-                        <outlet property="ratingControl" destination="MTL-G1-I8W" id="elA-ZV-Bjp"/>
+                        <outlet property="addToCounterButton" destination="EtV-Gt-u1z" id="9nG-zm-3Df"/>
+                        <outlet property="addToFavouriteButton" destination="C2y-xi-dzT" id="jrO-R7-W9Y"/>
+                        <outlet property="descriptionTextField" destination="7MQ-uN-Ne0" id="i1Z-u0-LzW"/>
+                        <outlet property="nameLabel" destination="2w8-gs-L8z" id="CAw-Yh-QNI"/>
+                        <outlet property="photoImageView" destination="tzi-iN-jXH" id="LfD-eB-hr7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mQI-2q-25N" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -15,23 +15,37 @@ import SwiftyJSON
 class RandomViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
     
     //MARK: Outlets
-    
     @IBOutlet weak var photoImageView: UIImageView!
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var alcoholPercentageLabel: UILabel!
-    @IBOutlet weak var ratingControl: RatingControl!
-    @IBOutlet weak var descriptionTextField: UITextView!
-    @IBOutlet weak var addToFavouriteButton: UIButton!
     
+    @IBOutlet weak var descriptionTextField: UITextView!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var addToFavouriteButton: UIButton!
+    @IBOutlet weak var addToCounterButton: UIButton!
     
     //MARK: Properties
     var beer: Beer?
     var savedBeers: [NSManagedObject] = []
+    var beerUnits: Double = 0.0
+    var firstBeerTime: Date = Date()
+    var weight: Double = 0
+    var bodyfluid: Double = 0
+    var firstBeerTimeSet: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getDataFromBeerDataObject()
         
+        //Additional layout setup
+        addToFavouriteButton.layer.cornerRadius = 20
+        addToFavouriteButton.clipsToBounds = true
+        addToCounterButton.layer.cornerRadius = 20
+        addToCounterButton.clipsToBounds = true
+        nameLabel.lineBreakMode = .byWordWrapping
+        nameLabel.numberOfLines = 0
+        photoImageView.contentMode = .scaleAspectFill
+        photoImageView.clipsToBounds = true
+        
+        getSavedProfileData()
+        getDataFromBeerDataObject()
         let downloadGroup = DispatchGroup()
         downloadGroup.enter()
         getRandomBeer(downloadGroup: downloadGroup)
@@ -45,35 +59,14 @@ class RandomViewController: UIViewController, UITextFieldDelegate, UINavigationC
                     self.addToFavouriteButton.alpha = 0.5;
                 }
                 if let beer = self.beer {
-                    self.nameLabel.text = beer.name
+                    print(beer.name)
+                    self.nameLabel.text = beer.name + ": " +  String(beer.alcoholPercentage) + " %"
                     self.photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
-                    self.ratingControl.rating = Int(beer.rating)
-                    self.alcoholPercentageLabel.text = String(beer.alcoholPercentage) + " %"
                     self.photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
                     self.descriptionTextField.text = beer.descriptionBeer
                 }
             }
         }
-        /*
-        downloadGroup.notify(queue: DispatchQueue.main) {
-            print("hallo")
-            if self.savedBeersContainsDisplayedBeer(){
-                self.addToFavouriteButton.isEnabled = false
-                self.addToFavouriteButton.isUserInteractionEnabled = false
-                self.addToFavouriteButton.alpha = 0.5;
-            }
-            
-            if let beer = self.beer {
-                self.nameLabel.text = beer.name
-                self.photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
-                self.ratingControl.rating = Int(beer.rating)
-                self.alcoholPercentageLabel.text = String(beer.alcoholPercentage) + " %"
-                self.photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
-                self.descriptionTextField.text = beer.descriptionBeer
-            }
-            
-        }*/
-        
     }
     
     
@@ -83,23 +76,66 @@ class RandomViewController: UIViewController, UITextFieldDelegate, UINavigationC
     }
     
     //MARK: Actions
-    @IBAction func addToFavorites(_ sender: UIButton) {
+    @IBAction func addToFavorites(_ sender: Any) {
         saveBeer()
-        /*
         addToFavouriteButton.isEnabled = false
         addToFavouriteButton.isUserInteractionEnabled = false
         addToFavouriteButton.alpha = 0.5;
-         */
     }
     
-    @IBAction func addToAlcoholCounter(_ sender: UIButton) {
-        //Alertmessage: you've drinked the certain beer
+    @IBAction func addToAlcoholCounter(_ sender: Any) {
+        let driveAgainService = DriveAgainService(viewController: self, weight: self.weight, bodyfluid: self.bodyfluid, beerUnits: self.beerUnits, firstBeerDateTime: self.firstBeerTime)
+        
+        if weight == 0 || bodyfluid == 0{
+            alertProfileNeedsToBeEditedForCalculation()
+        }else{
+            storeBeerToAlcholCounter()
+            
+            if driveAgainService.calculateBloodAlcoholPercentage() >= 0.5 {
+                let secondsToDrivingAgain = driveAgainService.calculateSecondsToDrivingAgain()
+                print("seconds ", secondsToDrivingAgain)
+                driveAgainService.scheduleNotificationForDrivingAgain(timeInterval: secondsToDrivingAgain)
+            }
+            alertAddedToAlcoholCounter()
+        }
+    }
+    
+    //MARK: Private functions
+    
+    private func storeBeerToAlcholCounter(){
+        let defaults = UserDefaults.standard
+        
+        if beer?.alcoholPercentage != nil{
+            if !firstBeerTimeSet {
+                defaults.set(Date(), forKey: "firstbeer")
+            }
+            var beerUnitsFromOneBeer = (beer?.alcoholPercentage)! / 5
+            self.beerUnits += beerUnitsFromOneBeer
+            defaults.set(self.beerUnits, forKey: "beerunits")
+            
+        }else{
+            alertNoAlcoholPercentageToCalculateWith()
+        }
+    }
+    
+    private func alertAddedToAlcoholCounter(){
         let alertBeerDrinked = UIAlertController(title: "Cheers!", message: "You've drinked this beer.", preferredStyle: .alert)
         alertBeerDrinked.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         present(alertBeerDrinked, animated: true, completion: nil)
     }
     
-    //MARK: Private functions
+    private func alertNoAlcoholPercentageToCalculateWith(){
+        let alertNoAlcoholPercentage = UIAlertController(title: "Oops!", message: "There isn't a alcohol percentage to calculate with", preferredStyle: .alert)
+        alertNoAlcoholPercentage.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alertNoAlcoholPercentage, animated: true, completion: nil)
+    }
+    
+    private func alertProfileNeedsToBeEditedForCalculation(){
+        let alertEditProfile = UIAlertController(title: "Oops!", message: "You have to edit you profile first before we can calculate if you can drive.", preferredStyle: .alert)
+        alertEditProfile.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alertEditProfile, animated: true, completion: nil)
+    }
+    
     private func saveBeer(){
         guard let appDelegate =
             UIApplication.shared.delegate as? AppDelegate else {
@@ -122,7 +158,6 @@ class RandomViewController: UIViewController, UITextFieldDelegate, UINavigationC
         do {
             try managedContext.save()
             savedBeers.append(beerFromManagedObject)
-            print("gel")
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
@@ -145,7 +180,6 @@ class RandomViewController: UIViewController, UITextFieldDelegate, UINavigationC
             UIApplication.shared.delegate as? AppDelegate else {
                 return
         }
-        
         let managedContext =
             appDelegate.persistentContainer.viewContext
         
@@ -178,6 +212,37 @@ class RandomViewController: UIViewController, UITextFieldDelegate, UINavigationC
         let alertNoBeersFound = UIAlertController(title: "Oops!", message: "Something went wrong with getting random beer", preferredStyle: .alert)
         alertNoBeersFound.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         present(alertNoBeersFound, animated: true, completion: nil)
+    }
+    
+    private func getSavedProfileData(){
+        let defaults = UserDefaults.standard
+        if let weightFromUserDefaults = defaults.object(forKey: "weight"){
+            self.weight = weightFromUserDefaults as! Double
+        } else {
+            self.weight = 0
+        }
+        if let bodyfluidFromUserDefaults = defaults.object(forKey: "bodyfluid"){
+            self.bodyfluid = bodyfluidFromUserDefaults as! Double
+        } else {
+            self.bodyfluid = 0
+        }
+        if let beerUnitsFromUserDefaults = defaults.object(forKey: "beerunits"){
+            self.beerUnits = beerUnitsFromUserDefaults as! Double
+        } else {
+            self.beerUnits = 0
+        }
+        if let firstBeerTimeFromUserDefaults = defaults.object(forKey: "firstbeer"){
+            self.firstBeerTime = firstBeerTimeFromUserDefaults as! Date
+        }
+    }
+    
+    private func checkIfDrinkedTooMuch(driveAgainService: DriveAgainService) -> Bool{
+        let bloodAlcoholPercentage = driveAgainService.calculateBloodAlcoholPercentage()
+        if bloodAlcoholPercentage >= 0.5{
+            return true
+        }else{
+            return false
+        }
     }
     
 }
