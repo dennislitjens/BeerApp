@@ -16,17 +16,21 @@ class EditProfileViewController: UIViewController {
     @IBOutlet weak var genderRadioButton: DLRadioButton!
     @IBOutlet weak var womanRadioButton: DLRadioButton!
     @IBOutlet weak var manRadioButton: DLRadioButton!
+    @IBOutlet weak var editProfileButton: UIButton!
     
     //MARK: Properties
     var weight: Double = 0
     var bodyfluid: Double = 0
+    var beerUnits: Double = 0
+    var firstBeerTime: Date = Date()
     
     override func viewDidLoad() {
+        editProfileButton.layer.cornerRadius = 20
+        editProfileButton.clipsToBounds = true
+        
         super.viewDidLoad()
         getProfileData()
-        
-        
-        
+
         if self.bodyfluid == 0.61 {
             womanRadioButton.isSelected = true
         }else{
@@ -61,6 +65,11 @@ class EditProfileViewController: UIViewController {
             let bodyfluid = getBodyFluid()
             let weight = Double(weightFromTextBox!)
             saveProfileDataAsUserDefaults(bodyfluid: bodyfluid, weight: weight!)
+            
+            if(beerUnits != 0){
+                setNewNotification()
+            }
+            
             _ = navigationController?.popViewController(animated: true)
         }else{
             showInvalidWeightInput()
@@ -73,6 +82,8 @@ class EditProfileViewController: UIViewController {
         let defaults = UserDefaults.standard
         self.weight = defaults.double(forKey: "weight")
         self.bodyfluid = defaults.double(forKey: "bodyfluid")
+        self.beerUnits = defaults.double(forKey: "beerunits")
+        self.firstBeerTime = defaults.object(forKey: "firstbeertime") as! Date
     }
     
     private func showInvalidWeightInput(){
@@ -94,5 +105,15 @@ class EditProfileViewController: UIViewController {
             return 0.61
         }
     }
-
+    
+    private func setNewNotification(){
+        let driveAgainService = DriveAgainService(viewController: self, weight: self.weight, bodyfluid: self.bodyfluid, beerUnits: self.beerUnits, firstBeerDateTime: self.firstBeerTime)
+        
+            if driveAgainService.calculateBloodAlcoholPercentage() >= 0.5 {
+                let secondsToDrivingAgain = driveAgainService.calculateSecondsToDrivingAgain()
+                print("seconds ", secondsToDrivingAgain)
+                driveAgainService.scheduleNotificationForDrivingAgain(timeInterval: secondsToDrivingAgain)
+            }
+        
+    }
 }

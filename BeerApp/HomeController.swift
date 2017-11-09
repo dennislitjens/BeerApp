@@ -4,11 +4,20 @@ import os.log
 class HomeController: UIViewController, UISearchBarDelegate {
     
     @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var favouriteBeersButton: UIButton!
+    @IBOutlet weak var luckyGuessButton: UIButton!
+    @IBOutlet weak var stillDriveButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchBar.delegate = self
+        favouriteBeersButton.layer.cornerRadius = 20
+        favouriteBeersButton.clipsToBounds = true
+        luckyGuessButton.layer.cornerRadius = 20
+        luckyGuessButton.clipsToBounds = true
+        stillDriveButton.layer.cornerRadius = 20
+        stillDriveButton.clipsToBounds = true
     }
     
     
@@ -16,15 +25,15 @@ class HomeController: UIViewController, UISearchBarDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier != "driveSegue" && segue.identifier != "randomSegue"{
             if sender is String {
-                let navigationController = segue.destination as! UINavigationController
+                let navigationController = segue.destination as! UIViewController
                 
-                let beerTableViewController = navigationController.viewControllers.first as! BeerTableViewController
+                let beerTableViewController = navigationController as! BeerTableViewController
                 
                 beerTableViewController.searchText = searchBar.text!
                 beerTableViewController.senderFromSegue = "searchSegue"
             }else{
-                let navigationController = segue.destination as! UINavigationController
-                let beerTableViewController = navigationController.viewControllers.first as! BeerTableViewController
+                let navigationController = segue.destination as! UIViewController
+                let beerTableViewController = navigationController as! BeerTableViewController
                 
                 beerTableViewController.senderFromSegue = "favouriteSegue"
             }

@@ -14,7 +14,8 @@ class CanIDriveController: UIViewController {
     
     //MARK: Outlets
     @IBOutlet weak var stillDriveLabel: UILabel!
-    
+    @IBOutlet weak var resetButton: UIButton!
+    @IBOutlet weak var editProfileButton: UIButton!
     
     //MARK: Properties
     var weight: Double = 0
@@ -22,20 +23,28 @@ class CanIDriveController: UIViewController {
     var beerUnits: Double = 0
     var firstBeerDateTime: Date = Date()
     var firstBeerTimeIsSet: Bool = true
+    var driveAgainService: DriveAgainService = DriveAgainService(viewController: UIViewController() ,weight: 0,bodyfluid: 0,beerUnits: 0,firstBeerDateTime: Date())
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        editProfileButton.layer.cornerRadius = 20
+        editProfileButton.clipsToBounds = true
+        resetButton.layer.cornerRadius = 20
+        resetButton.clipsToBounds = true
         
         getSavedProfileData()
         if weight == 0 || bodyfluid == 0{
             stillDriveLabel.text = "Edit profile first"
         }else{
             stillDriveLabel.text = "Yes you can!"
+            self.view.backgroundColor = .green
         }
-        let driveAgainService = DriveAgainService(viewController: self, weight: weight, bodyfluid: bodyfluid, beerUnits: beerUnits, firstBeerDateTime: firstBeerDateTime)
-        let bloodAlcoholPercentage = driveAgainService.calculateBloodAlcoholPercentage()
+        self.driveAgainService = DriveAgainService(viewController: self, weight: weight, bodyfluid: bodyfluid, beerUnits: beerUnits, firstBeerDateTime: firstBeerDateTime)
+        let bloodAlcoholPercentage = self.driveAgainService.calculateBloodAlcoholPercentage()
         if bloodAlcoholPercentage >= 0.5 {
             stillDriveLabel.text = "No you can't!"
+            self.view.backgroundColor = .red
         }
     }
     
@@ -44,6 +53,24 @@ class CanIDriveController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        getSavedProfileData()
+        if weight == 0 || bodyfluid == 0{
+            stillDriveLabel.text = "Edit profile first"
+        }else{
+            stillDriveLabel.text = "Yes you can!"
+            self.view.backgroundColor = .green
+        }
+        self.driveAgainService = DriveAgainService(viewController: self, weight: weight, bodyfluid: bodyfluid, beerUnits: beerUnits, firstBeerDateTime: firstBeerDateTime)
+        let bloodAlcoholPercentage = self.driveAgainService.calculateBloodAlcoholPercentage()
+        if bloodAlcoholPercentage >= 0.5 {
+            stillDriveLabel.text = "No you can't!"
+            self.view.backgroundColor = .red
+        }
+    }
+
     
     //MARK: Actions
     @IBAction func resetAlcoholCounter(_ sender: UIButton) {
@@ -54,7 +81,14 @@ class CanIDriveController: UIViewController {
         defaults.removeObject(forKey: "beerunits")
         defaults.removeObject(forKey: "firstbeer")
         
-        stillDriveLabel.text = "Yes you can!"
+        
+        if weight == 0 || bodyfluid == 0{
+            stillDriveLabel.text = "Edit profile first"
+        }else{
+            stillDriveLabel.text = "Yes you can!"
+            self.driveAgainService.resetNotification()
+            self.view.backgroundColor = .green
+        }
     }
     
     //MARK: Private functions

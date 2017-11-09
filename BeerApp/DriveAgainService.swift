@@ -40,7 +40,7 @@ class DriveAgainService {
     
     func calculateSecondsToDrivingAgain() -> Double{
         var hoursTillDrivingAgain = 0.5/(0.002*self.weight)
-        //hoursTillDrivingAgain = hoursTillDrivingAgain / 1000 for testing notification
+        hoursTillDrivingAgain = hoursTillDrivingAgain / 1000// for testing notification
         return hoursTillDrivingAgain*3600
     }
     
@@ -62,10 +62,15 @@ class DriveAgainService {
         }
     }
     
+    public func resetNotification(){
+        let notificationCenter = UNUserNotificationCenter.current()
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: ["UYLocalBeerNotification"])
+    }
+    
     private func createNotificationRequest(notificationCenter: UNUserNotificationCenter, timeInterval: Double){
         let content = UNMutableNotificationContent()
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: TimeInterval(timeInterval), repeats: false)
-        let identifier = "UYLocalNotification"
+        let identifier = "UYLocalBeerNotification"
         
         content.title = "Hurray!"
         content.body = "You can drive again!"

@@ -148,6 +148,12 @@ class BeerTableViewController: UITableViewController, NSFetchedResultsController
             beerToDelete.managedObjectContext?.delete(beerToDelete)
             do {
                 try persistentContainer.viewContext.save()
+                guard let beersFromDataObjects = fetchedResultsController.fetchedObjects else {
+                        return
+                    }
+                if beersFromDataObjects.count == 0{
+                    showNoFavouriteBeersAlert()
+                }
             } catch {
                 print("\(error), \(error.localizedDescription)")
             }
@@ -236,6 +242,12 @@ class BeerTableViewController: UITableViewController, NSFetchedResultsController
             } else {
                 do {
                     try self.fetchedResultsController.performFetch()
+                    guard let beersFromDataObjects = self.fetchedResultsController.fetchedObjects else {
+                        return
+                    }
+                    if beersFromDataObjects.count == 0{
+                        self.showNoFavouriteBeersAlert()
+                    }
                 } catch {
                     let fetchError = error as NSError
                     print("Unable to Perform Fetch Request")
@@ -259,8 +271,20 @@ class BeerTableViewController: UITableViewController, NSFetchedResultsController
     
     private func showNoBeersFoundMessage(){
         let alertNoBeersFound = UIAlertController(title: "Oops!", message: "No beers found", preferredStyle: .alert)
-        alertNoBeersFound.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        let action = UIAlertAction(title: "OK", style: .default) { (action) -> Void in
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        alertNoBeersFound.addAction(action)
         present(alertNoBeersFound, animated: true, completion: nil)
+    }
+    
+    private func showNoFavouriteBeersAlert(){
+        let alertNoFavouriteBeers = UIAlertController(title: "Oops!", message: "You have no favourite beers", preferredStyle: .alert)
+        let action = UIAlertAction(title: "OK", style: .default) { (action) -> Void in
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        alertNoFavouriteBeers.addAction(action)
+        present(alertNoFavouriteBeers, animated: true, completion: nil)
     }
     
     private func getSearchedBeers(searchText: String, downloadGroup: DispatchGroup){

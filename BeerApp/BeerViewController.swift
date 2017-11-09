@@ -19,8 +19,8 @@ class BeerViewController: UIViewController, UITextFieldDelegate, UINavigationCon
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var descriptionTextField: UITextView!
     @IBOutlet weak var ratingControl: RatingControl!
-    @IBOutlet weak var alcoholPercentageLabel: UILabel!
     @IBOutlet weak var addToFavouriteButton: UIButton!
+    @IBOutlet weak var addToCounterButton: UIButton!
     
     //MARK: Properties
     var beer: Beer?
@@ -34,6 +34,16 @@ class BeerViewController: UIViewController, UITextFieldDelegate, UINavigationCon
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Additional layout setup
+        addToFavouriteButton.layer.cornerRadius = 20
+        addToFavouriteButton.clipsToBounds = true
+        addToCounterButton.layer.cornerRadius = 20
+        addToCounterButton.clipsToBounds = true
+        nameLabel.lineBreakMode = .byWordWrapping
+        nameLabel.numberOfLines = 0
+        photoImageView.contentMode = .scaleAspectFill
+        photoImageView.clipsToBounds = true
+        
         getSavedProfileData()
         getDataFromBeerDataObject()
         if savedBeersContainsDisplayedBeer(){
@@ -43,10 +53,8 @@ class BeerViewController: UIViewController, UITextFieldDelegate, UINavigationCon
         }
         
           if let beer = beer {
-            nameLabel.text = beer.name
+            nameLabel.text = beer.name + ": " +  String(beer.alcoholPercentage) + " %"
             photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
-            ratingControl.rating = Int(beer.rating)
-            alcoholPercentageLabel.text = String(beer.alcoholPercentage) + " %"
             photoImageView.sd_setImage(with: URL(string: beer.photo!), placeholderImage: UIImage(named: "defaultNoImage"))
             descriptionTextField.text = beer.descriptionBeer
         }
@@ -68,15 +76,19 @@ class BeerViewController: UIViewController, UITextFieldDelegate, UINavigationCon
     
     @IBAction func addToAlcoholCounter(_ sender: UIButton) {
         let driveAgainService = DriveAgainService(viewController: self, weight: self.weight, bodyfluid: self.bodyfluid, beerUnits: self.beerUnits, firstBeerDateTime: self.firstBeerTime)
-        
-        storeBeerToAlcholCounter()
-        
-        if driveAgainService.calculateBloodAlcoholPercentage() >= 0.5 {
-            let secondsToDrivingAgain = driveAgainService.calculateSecondsToDrivingAgain()
-            print("seconds ", secondsToDrivingAgain)
-            driveAgainService.scheduleNotificationForDrivingAgain(timeInterval: secondsToDrivingAgain)
+
+        if weight == 0 || bodyfluid == 0{
+            alertProfileNeedsToBeEditedForCalculation()
+        }else{
+            storeBeerToAlcholCounter()
+            
+            if driveAgainService.calculateBloodAlcoholPercentage() >= 0.5 {
+                let secondsToDrivingAgain = driveAgainService.calculateSecondsToDrivingAgain()
+                print("seconds ", secondsToDrivingAgain)
+                driveAgainService.scheduleNotificationForDrivingAgain(timeInterval: secondsToDrivingAgain)
+            }
+            alertAddedToAlcoholCounter()
         }
-        alertAddedToAlcoholCounter()
     }
     
     //MARK: Private functions
@@ -107,6 +119,12 @@ class BeerViewController: UIViewController, UITextFieldDelegate, UINavigationCon
         let alertNoAlcoholPercentage = UIAlertController(title: "Oops!", message: "There isn't a alcohol percentage to calculate with", preferredStyle: .alert)
         alertNoAlcoholPercentage.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
         present(alertNoAlcoholPercentage, animated: true, completion: nil)
+    }
+    
+    private func alertProfileNeedsToBeEditedForCalculation(){
+        let alertEditProfile = UIAlertController(title: "Oops!", message: "You have to edit you profile first before we can calculate if you can drive.", preferredStyle: .alert)
+        alertEditProfile.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        present(alertEditProfile, animated: true, completion: nil)
     }
     
     private func saveBeer(){

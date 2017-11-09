@@ -15,6 +15,7 @@ import SwiftyJSON
 class RandomViewController: UIViewController, UITextFieldDelegate, UINavigationControllerDelegate {
     
     //MARK: Outlets
+    
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var alcoholPercentageLabel: UILabel!
