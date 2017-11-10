@@ -10,7 +10,9 @@ class HomeController: UIViewController, UISearchBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
+        self.dismissKeyboard()
+        self.hideKeyboardWhenTappedAround()
         searchBar.delegate = self
         favouriteBeersButton.layer.cornerRadius = 20
         favouriteBeersButton.clipsToBounds = true
@@ -41,10 +43,27 @@ class HomeController: UIViewController, UISearchBarDelegate {
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.dismissKeyboard()
+    }
+    
     //MARK: Actions
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if let searchText = searchBar.text {
             performSegue(withIdentifier: "beerTableSegue", sender: searchText)
         }
+    }
+    
+    
+}
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }

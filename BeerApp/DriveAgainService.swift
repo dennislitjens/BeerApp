@@ -40,7 +40,7 @@ class DriveAgainService {
     
     func calculateSecondsToDrivingAgain() -> Double{
         var hoursTillDrivingAgain = 0.5/(0.002*self.weight) * 3600
-        hoursTillDrivingAgain = hoursTillDrivingAgain / 3000// for testing notification
+        //hoursTillDrivingAgain = hoursTillDrivingAgain / 3000// for testing notification
         return hoursTillDrivingAgain
     }
     

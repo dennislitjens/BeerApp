@@ -27,7 +27,8 @@ class EditProfileViewController: UIViewController {
     override func viewDidLoad() {
         editProfileButton.layer.cornerRadius = 20
         editProfileButton.clipsToBounds = true
-        
+        self.hideKeyboardWhenTappedAround()
+        self.dismissKeyboard()
         super.viewDidLoad()
         getProfileData()
 
@@ -45,6 +46,10 @@ class EditProfileViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.dismissKeyboard()
     }
     
 

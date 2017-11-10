@@ -35,6 +35,7 @@ class BeerViewController: UIViewController, UITextFieldDelegate, UINavigationCon
         super.viewDidLoad()
         
         //Additional layout setup
+        self.hideKeyboardWhenTappedAround()
         addToFavouriteButton.layer.cornerRadius = 20
         addToFavouriteButton.clipsToBounds = true
         addToCounterButton.layer.cornerRadius = 20
@@ -64,6 +65,10 @@ class BeerViewController: UIViewController, UITextFieldDelegate, UINavigationCon
     // This method lets you configure a view controller before it's presented.
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.dismissKeyboard()
     }
     
     //MARK: Actions
