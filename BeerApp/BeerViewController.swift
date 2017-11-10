@@ -29,7 +29,7 @@ class BeerViewController: UIViewController, UITextFieldDelegate, UINavigationCon
     var firstBeerTime: Date = Date()
     var weight: Double = 0
     var bodyfluid: Double = 0
-    var firstBeerTimeSet: Bool = true
+    var firstBeerTimeSet: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,7 +103,6 @@ class BeerViewController: UIViewController, UITextFieldDelegate, UINavigationCon
             var beerUnitsFromOneBeer = (beer?.alcoholPercentage)! / 5
             self.beerUnits += beerUnitsFromOneBeer
             defaults.set(self.beerUnits, forKey: "beerunits")
-            
         }else{
             alertNoAlcoholPercentageToCalculateWith()
         }
@@ -224,6 +223,7 @@ class BeerViewController: UIViewController, UITextFieldDelegate, UINavigationCon
         }
         if let firstBeerTimeFromUserDefaults = defaults.object(forKey: "firstbeer"){
             self.firstBeerTime = firstBeerTimeFromUserDefaults as! Date
+            firstBeerTimeSet = true
         }
     }
     

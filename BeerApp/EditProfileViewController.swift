@@ -83,7 +83,12 @@ class EditProfileViewController: UIViewController {
         self.weight = defaults.double(forKey: "weight")
         self.bodyfluid = defaults.double(forKey: "bodyfluid")
         self.beerUnits = defaults.double(forKey: "beerunits")
-        self.firstBeerTime = defaults.object(forKey: "firstbeertime") as! Date
+        print(defaults.object(forKey: "firstbeer"))
+        if beerUnits == 0{
+            return
+        }else{
+            self.firstBeerTime = defaults.object(forKey: "firstbeer") as! Date
+        }
     }
     
     private func showInvalidWeightInput(){

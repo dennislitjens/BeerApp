@@ -176,16 +176,16 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             </navigationBar>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="viQ-zr-7Fs">
-                                <rect key="frame" x="15" y="54" width="290" height="499"/>
+                                <rect key="frame" x="15" y="54" width="290" height="455"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Vid-1D-uFN">
-                                        <rect key="frame" x="0.0" y="0.0" width="290" height="249.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="290" height="227.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="QQD-wX-PbI">
-                                                <rect key="frame" x="0.0" y="0.0" width="290" height="42"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="290" height="37.5"/>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Edit profile first" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s60-nO-c7k" userLabel="Profile edit">
-                                                <rect key="frame" x="0.0" y="52" width="290" height="42"/>
+                                                <rect key="frame" x="0.0" y="47.5" width="290" height="37.5"/>
                                                 <fontDescription key="fontDescription" name="Verdana-Bold" family="Verdana" pointSize="25"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -194,10 +194,10 @@
                                                 </variation>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="shR-aG-K51">
-                                                <rect key="frame" x="0.0" y="104" width="290" height="41.5"/>
+                                                <rect key="frame" x="0.0" y="95" width="290" height="37.5"/>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WuF-K7-CpW">
-                                                <rect key="frame" x="0.0" y="155.5" width="290" height="42"/>
+                                                <rect key="frame" x="0.0" y="142.5" width="290" height="37.5"/>
                                                 <color key="backgroundColor" red="0.99943333860000005" green="0.80882412199999998" blue="0.9309183955" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="Verdana" family="Verdana" pointSize="17"/>
                                                 <state key="normal" title="Reset alcohol counter">
@@ -211,10 +211,10 @@
                                                 </connections>
                                             </button>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="pwT-Ur-C0m">
-                                                <rect key="frame" x="0.0" y="207.5" width="290" height="42"/>
+                                                <rect key="frame" x="0.0" y="190" width="290" height="37.5"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9gf-QS-abl">
-                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="42"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="37.5"/>
                                                         <color key="backgroundColor" red="0.99943333860000005" green="0.80882412199999998" blue="0.9309183955" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" name="Verdana" family="Verdana" pointSize="17"/>
                                                         <state key="normal" title="Edit weight">
@@ -232,7 +232,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="gd5-KK-Am4">
-                                        <rect key="frame" x="0.0" y="249.5" width="290" height="249.5"/>
+                                        <rect key="frame" x="0.0" y="227.5" width="290" height="227.5"/>
                                     </stackView>
                                 </subviews>
                             </stackView>
@@ -269,10 +269,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="DA9-1g-zHq">
-                                <rect key="frame" x="15" y="74" width="290" height="479"/>
+                                <rect key="frame" x="15" y="74" width="290" height="435"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="dQP-yt-hBB">
-                                        <rect key="frame" x="0.0" y="0.0" width="290" height="239.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="290" height="217.5"/>
                                         <subviews>
                                             <searchBar contentMode="redraw" ambiguous="YES" placeholder="Search for a beer" translatesAutoresizingMaskIntoConstraints="NO" id="jp5-E7-qyW">
                                                 <rect key="frame" x="0.0" y="0.0" width="290" height="56"/>
@@ -280,10 +280,10 @@
                                                 <textInputTraits key="textInputTraits"/>
                                             </searchBar>
                                             <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="pkM-6G-4bj">
-                                                <rect key="frame" x="0.0" y="64" width="290" height="175.5"/>
+                                                <rect key="frame" x="0.0" y="64" width="290" height="153.5"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2E-eY-6Zb">
-                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="53"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="46"/>
                                                         <color key="backgroundColor" red="0.99943333864212036" green="0.80882412195205688" blue="0.93091839551925659" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" name="Verdana-Bold" family="Verdana" pointSize="17"/>
                                                         <state key="normal" title="Favourite beers"/>
@@ -295,7 +295,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FAf-Rm-90e">
-                                                        <rect key="frame" x="0.0" y="61" width="290" height="53.5"/>
+                                                        <rect key="frame" x="0.0" y="54" width="290" height="45.5"/>
                                                         <color key="backgroundColor" red="0.99943333864212036" green="0.80882412195205688" blue="0.93091839551925659" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" name="Verdana-Bold" family="Verdana" pointSize="17"/>
                                                         <state key="normal" title="Lucky guess"/>
@@ -307,7 +307,7 @@
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tzp-PG-wW5">
-                                                        <rect key="frame" x="0.0" y="122.5" width="290" height="53"/>
+                                                        <rect key="frame" x="0.0" y="107.5" width="290" height="46"/>
                                                         <color key="backgroundColor" red="0.99943333860000005" green="0.80882412199999998" blue="0.9309183955" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" name="Verdana-Bold" family="Verdana" pointSize="17"/>
                                                         <state key="normal" title="Can I still drive"/>
@@ -323,10 +323,10 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="2Ix-hl-gM1">
-                                        <rect key="frame" x="25" y="239.5" width="240" height="239.5"/>
+                                        <rect key="frame" x="36" y="217.5" width="218" height="217.5"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="homeBeer" translatesAutoresizingMaskIntoConstraints="NO" id="c2V-vk-3gd">
-                                                <rect key="frame" x="0.0" y="0.0" width="240" height="239.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="218" height="217.5"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="c2V-vk-3gd" secondAttribute="height" multiplier="5:5" id="HYw-dL-P06"/>
                                                 </constraints>
@@ -351,7 +351,16 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem enabled="NO" title="Remove" id="RP7-R4-Gqe">
+                            <color key="tintColor" red="1" green="0.14536615680000001" blue="0.2434419307" alpha="0.68000000000000005" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="deleteSelectedBeers:" destination="ODB-rj-Fwn" id="pnW-db-2me"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" title="Home" id="e8F-bx-rnh" userLabel="Home"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="favouriteBeersButton" destination="Q2E-eY-6Zb" id="Noy-As-YdS"/>
                         <outlet property="luckyGuessButton" destination="FAf-Rm-90e" id="B5B-6d-KP1"/>
@@ -361,6 +370,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="ODB-rj-Fwn" userLabel="Exit" sceneMemberID="exit"/>
                 <searchDisplayController id="3Mn-bh-qKq">
                     <connections>
                         <outlet property="delegate" destination="BYZ-38-t0r" id="m9U-PI-0mK"/>
@@ -375,9 +385,9 @@
         <!--Favorite beers-->
         <scene sceneID="451-CS-joC">
             <objects>
-                <tableViewController id="dHO-aE-RVp" customClass="BeerTableViewController" customModule="BeerApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="KUA-P1-YOg">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                <tableViewController extendedLayoutIncludesOpaqueBars="YES" id="dHO-aE-RVp" customClass="BeerTableViewController" customModule="BeerApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" allowsMultipleSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="KUA-P1-YOg">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.88351303339004517" green="0.99916166067123413" blue="0.8333238959312439" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="sectionIndexBackgroundColor" red="0.99943333860000005" green="0.80882412199999998" blue="0.9309183955" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -437,7 +447,7 @@
                                     <outlet property="alcoholPercentageLabel" destination="6Oh-yB-pWW" id="DtA-uB-5Cj"/>
                                     <outlet property="nameLabel" destination="0RJ-jA-KwL" id="Dwe-rv-qDd"/>
                                     <outlet property="photoImageView" destination="rq9-Cy-hRw" id="VGC-zz-hnt"/>
-                                    <segue destination="XcH-d8-5Ex" kind="show" id="SoS-CS-Fab"/>
+                                    <segue destination="XcH-d8-5Ex" kind="show" identifier="detailSegue" id="SoS-CS-Fab"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -447,7 +457,10 @@
                             <outlet property="delegate" destination="dHO-aE-RVp" id="ozT-jI-2dm"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <toolbarItems/>
                     <navigationItem key="navigationItem" title="Favorite beers" id="EqB-P6-kZk"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="beerTableView" destination="KUA-P1-YOg" id="pWS-uv-Txe"/>
                     </connections>
@@ -606,7 +619,7 @@
             <objects>
                 <viewController title="Random beer" id="uA7-zC-WNL" customClass="RandomViewController" customModule="BeerApp" sceneMemberID="viewController">
                     <view key="view" contentMode="center" id="kdu-ft-jxJ">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="ft3-f0-Pnt">

@@ -110,6 +110,7 @@ class CanIDriveController: UIViewController {
             self.beerUnits = 0
         }
         if let firstBeerTimeFromUserDefaults = defaults.object(forKey: "firstbeer"){
+            print(defaults.object(forKey: "firstbeer"))
             self.firstBeerDateTime = firstBeerTimeFromUserDefaults as! Date
         } else {
             firstBeerTimeIsSet = false

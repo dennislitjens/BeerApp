@@ -18,13 +18,14 @@ class BeerTableViewController: UITableViewController, NSFetchedResultsController
     //MARK: Outlets
     @IBOutlet var beerTableView: UITableView!
     
+    @IBOutlet weak var deleteButton: UIBarButtonItem!
+    
     //MARK: Properties
 
     let persistentContainer = NSPersistentContainer(name: "BeerApp")
     var beers = [Beer]()
-    var beersToDelete = [Beer]()
+    var beersToDeleteIndexes = [Int]()
     var searchText = ""
-    var savedBeers: [NSManagedObject] = []
     var senderFromSegue: String = ""
     var isSenderFromSequeSearch: Bool = true
     
@@ -81,6 +82,20 @@ class BeerTableViewController: UITableViewController, NSFetchedResultsController
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if self.senderFromSegue == "favouriteSegue"{
+            self.navigationController?.setToolbarHidden(false, animated: false)
+            var toolBarItems = [UIBarButtonItem]()
+            var deleteBeerButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteSelectedBeers(_:)))
+            toolBarItems.append(deleteBeerButton)
+            self.navigationController?.toolbar.items = toolBarItems
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.setToolbarHidden(true, animated: false)
+    }
+ 
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -165,8 +180,33 @@ class BeerTableViewController: UITableViewController, NSFetchedResultsController
         return .delete
     }
     
+    override func tableView(_ tableView: UITableView,
+                            didSelectRowAt indexPath: IndexPath){
+        beersToDeleteIndexes.append(indexPath.row)
+        
+    }
     
+    override func tableView(_ tableView: UITableView,
+                            didDeselectRowAt indexPath: IndexPath){
+        let indexOfDeselectedBeer = beersToDeleteIndexes.index(of: indexPath.row)
+        print("azd")
+        beersToDeleteIndexes.remove(at: indexOfDeselectedBeer!)
+        /*for i in 0..<beersToDeleteIndexes.count{
+            if beersToDeleteIndexes[i] == indexPath.row{
+                beersToDeleteIndexes.remove(at: i)
+            }
+        }*/
+        
+    }
     
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "detailSegue"{
+            return !self.isEditing
+        }else{
+            return true
+        }
+    }
+
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .delete:
@@ -226,11 +266,27 @@ class BeerTableViewController: UITableViewController, NSFetchedResultsController
     }
     
     //MARK: Actions
-    
-    
-    @IBAction func didTapBringCheckBoxBtn(_ sender: UIBarButtonItem) {
+    @IBAction func deleteSelectedBeers(_ sender: Any) {
+        if beersToDeleteIndexes.count != 0{
+            for i in 0..<beersToDeleteIndexes.count {
+                let beerToDelete = fetchedResultsController.object(at: IndexPath(row: beersToDeleteIndexes[i]-i, section: 0))
+                beerToDelete.managedObjectContext?.delete(beerToDelete)
+                do {
+                    try persistentContainer.viewContext.save()
+                    guard let beersFromDataObjects = fetchedResultsController.fetchedObjects else {
+                        return
+                    }
+                    if beersFromDataObjects.count == 0{
+                        showNoFavouriteBeersAlert()
+                    }
+                } catch {
+                    print("\(error), \(error.localizedDescription)")
+                }
+            }
+            beersToDeleteIndexes.removeAll()
+        }
     }
-    
+
     
     //MARK: Private Methods
     private func getFetchedBeerObjects(){
